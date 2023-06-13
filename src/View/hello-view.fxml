@@ -8,10 +8,11 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import View.MazeDisplayer?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -41,27 +42,27 @@
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField prefHeight="26.0" prefWidth="139.0">
+            <TextField fx:id="rowNumber" prefHeight="26.0" prefWidth="139.0">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Maze colums:">
+            <Label text="Maze columns:">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField prefHeight="17.0" prefWidth="70.0">
+            <TextField fx:id="colNumber" prefHeight="17.0" prefWidth="70.0">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="113.0" text="Start Game">
+            <Button mnemonicParsing="false" onAction="#generateMaze" prefHeight="26.0" prefWidth="113.0" text="Start Game">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Show me the way">
+            <Button mnemonicParsing="false" onAction="#solveMaze" text="Show me the way">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
@@ -69,4 +70,11 @@
          </children>
       </VBox>
    </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" >
+           <children>
+               <MazeDisplayer fx:id="mazeDisplayer" height="400.0" width="400.0" />
+           </children>
+      </Pane>
+   </center>
 </BorderPane>

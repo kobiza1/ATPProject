@@ -93,12 +93,13 @@ public class View implements Initializable,Observer {
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
-        mazeDisplayer.requestFocus();
+        //mazeDisplayer.requestFocus();
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
+        /*
         if(o instanceof MyViewModel)
         {
             if(maze == null)//generateMaze
@@ -135,11 +136,12 @@ public class View implements Initializable,Observer {
                 }
             }
         }
+        */
     }
 
     public void drawMaze()
     {
-        mazeDisplayer.drawMaze(maze);
+        //mazeDisplayer.drawMaze(maze);
     }
 
     public void openFile(ActionEvent actionEvent) {

@@ -15,7 +15,6 @@ public class MyViewModel extends Observable implements Observer {
     private int rowChar;
     private int colChar;
 
-
     public MyViewModel(IModel model) {
         this.model = model;
         this.model.assignObserver(this);
