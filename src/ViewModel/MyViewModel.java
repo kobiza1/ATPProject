@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.IModel;
+import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
 import java.util.Observable;
@@ -37,46 +38,27 @@ public class MyViewModel extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof IModel)
+        int action_num = 0;
+        String str_num = arg.toString();
+        action_num = Integer.parseInt(str_num);
+
+        if(action_num == 1)//generateMaze
         {
-            if(maze == null)//generateMaze
-            {
-                this.maze = model.getMaze();
-            }
-            else {
-                int[][] maze = model.getMaze();
-
-                if (maze == this.maze)//Not generateMaze
-                {
-                    int rowChar = model.getRowChar();
-                    int colChar = model.getColChar();
-                    if(this.colChar == colChar && this.rowChar == rowChar)//Solve Maze
-                    {
-                        model.getSolution();
-                    }
-                    else//Update location
-                    {
-                        this.rowChar = rowChar;
-                        this.colChar = colChar;
-                    }
-
-
-                }
-                else//GenerateMaze
-                {
-                    this.maze = maze;
-                }
-            }
-
-            setChanged();
-            notifyObservers();
+            this.maze = model.getMaze();
         }
+        else if (action_num == 2){
+            rowChar = model.getRowChar();
+            colChar = model.getColChar();
+        }
+        else if(action_num == 3)
+            model.getSolution();
+        setChanged();
+        notifyObservers(action_num);
     }
-
 
     public void generateMaze(int row,int col)
     {
-        this.model.generateMaze(row,col);
+        model.generateMaze(row,col);
     }
 
     public void moveCharacter(KeyEvent keyEvent)
@@ -106,9 +88,9 @@ public class MyViewModel extends Observable implements Observer {
         model.solveMaze(maze);
     }
 
-    public void getSolution()
+    public Solution getSolution()
     {
-        model.getSolution();
+        return model.getSolution();
     }
     public void assignObserver(Observer o) {
         this.addObserver(o);

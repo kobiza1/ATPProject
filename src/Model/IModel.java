@@ -1,5 +1,7 @@
 package Model;
 
+import algorithms.search.Solution;
+
 import java.util.Observer;
 
 public interface IModel {
@@ -10,5 +12,5 @@ public interface IModel {
     public int getColChar();
     public void assignObserver(Observer o);
     public void solveMaze(int [][] maze);
-    public void getSolution();
+    public Solution getSolution();
 }
