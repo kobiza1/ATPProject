@@ -124,7 +124,7 @@ public class MyModel extends Observable implements IModel{
                     }
                     break;
             }
-            if(colChar == maze_board[0].length && rowChar == maze_board.length){
+            if(colChar == maze_board[0].length-1 && rowChar == maze_board.length-1){
                 setChanged();
                 notifyObservers(10); // maze is done!!
             }
@@ -215,7 +215,7 @@ public class MyModel extends Observable implements IModel{
         if(serversAreUp){
             stopServers();
         }
-        exit();
+        System.exit(0);
     }
 
     private void CommunicateWithServer_MazeGenerating(int row, int col)  {

@@ -160,6 +160,10 @@ public class MyViewModel extends Observable implements Observer {
         }
         return "";
     }
+
+    public void exit_game() {
+        model.exit();
+    }
 }
 
 

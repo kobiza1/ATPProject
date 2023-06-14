@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -234,7 +235,7 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void exitGame(ActionEvent actionEvent){
-
+            viewModel.exit_game();
     }
     private String openFileManager() {
         FileChooser fileChooser = new FileChooser();
@@ -268,15 +269,26 @@ public class MyViewController implements IView , Initializable, Observer {
         if (scrollEvent.isControlDown()) {
             double zoom_fac = 1.05;
             if (scrollEvent.getDeltaY() < 0) {
-                zoom_fac = 2.0 - zoom_fac;
+                zoom_fac = -0.05;
             }
+            double mouseX = scrollEvent.getX();
+            double mouseY = scrollEvent.getY();
+            Point2D mouseLocal = mazeDisplayer.sceneToLocal(mouseX, mouseY);
             Scale newScale = new Scale();
-            newScale.setPivotX(scrollEvent.getX());
-            newScale.setPivotY(scrollEvent.getY());
-            newScale.setX(mazeDisplayer.getScaleX() * zoom_fac);
-            newScale.setY(mazeDisplayer.getScaleY() * zoom_fac);
-            mazeDisplayer.getTransforms().add(newScale);
-            scrollEvent.consume();
+            newScale.setX(mazeDisplayer.getScaleX() + zoom_fac);
+            newScale.setY(mazeDisplayer.getScaleY() + zoom_fac);
+            newScale.setPivotX(mouseLocal.getX());
+            newScale.setPivotY(mouseLocal.getY());
+            double translateY=0.0, translateX=0.0;
+            if(zoom_fac > 0){
+            translateX = mazeDisplayer.getTranslateX() - (mouseLocal.getX() * (zoom_fac - 1));
+            translateY = mazeDisplayer.getTranslateY() - (mouseLocal.getY() * (zoom_fac - 1));}
+            if(zoom_fac < 0){
+                 translateX = mazeDisplayer.getTranslateX() - (mouseLocal.getX() * (zoom_fac));
+                 translateY = mazeDisplayer.getTranslateY() - (mouseLocal.getY() * (zoom_fac));}
+            mazeDisplayer.getTransforms().addAll(newScale);
+            mazeDisplayer.setTranslateX(translateX);
+            mazeDisplayer.setTranslateY(translateY);
         }
     }
 }
