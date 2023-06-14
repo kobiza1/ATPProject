@@ -15,7 +15,7 @@ public class MazeDisplayer extends Canvas {
     private int[][] maze;
     private int playerRow = 0;
     private int playerCol = 0;
-    private ArrayList<Integer> solution = new ArrayList();
+    private ArrayList<Integer> solution = null;
     // wall and player images:
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
@@ -73,6 +73,9 @@ public class MazeDisplayer extends Canvas {
 
             drawMazeWalls(graphicsContext, cellHeight, cellWidth, rows, cols);
             drawPlayer(graphicsContext, cellHeight, cellWidth);
+            if(solution != null){
+                drawSolution(graphicsContext, cellHeight, cellWidth);
+            }
         }
     }
 
@@ -138,5 +141,6 @@ public class MazeDisplayer extends Canvas {
 
     public void setSolution(ArrayList<Integer> solution) {
         this.solution = solution;
+        draw();
     }
 }

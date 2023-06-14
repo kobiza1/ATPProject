@@ -117,6 +117,7 @@ public class MyViewController implements IView , Initializable, Observer {
     }
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
+
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
