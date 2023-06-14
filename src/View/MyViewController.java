@@ -15,8 +15,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -43,22 +45,24 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+import static javafx.scene.input.KeyCode.NUMPAD8;
+
 public class MyViewController implements IView , Initializable, Observer {
     @FXML
     public TextField rowNumber;
     @FXML
     public TextField colNumber;
     @FXML
-    public TextField playerRow;
+    public Label playerRow;
     @FXML
-    public TextField playerCol;
+    public Label playerCol;
     StringProperty updatePlayerRow = new SimpleStringProperty();
     StringProperty updatePlayerCol = new SimpleStringProperty();
+
     public MyViewModel viewModel;
-    public MazeDisplayer mazeDisplayer;
     @FXML
-    public Pane zoomablePane;
-    public boolean isCtrlPressed = false;
+    public MazeDisplayer mazeDisplayer;
+
 
     public MyViewController(){
         MyModel model = new MyModel();
@@ -125,39 +129,10 @@ public class MyViewController implements IView , Initializable, Observer {
     }
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
-
     }
     @FXML
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
-    }
-    @FXML
-    private void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.CONTROL) {
-            isCtrlPressed = true;
-        }
-    }
-    @FXML
-    private void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.CONTROL) {
-            isCtrlPressed = false;
-        }
-    }
-    @FXML
-    private void handleMouseScroll(ScrollEvent event) {
-        if (isCtrlPressed) {
-            double zoomFactor = 1.1;
-            double deltaY = event.getDeltaY();
-
-            if (deltaY < 0) {
-                zoomFactor = 1 / zoomFactor;
-            }
-
-            zoomablePane.setScaleX(zoomablePane.getScaleX() * zoomFactor);
-            zoomablePane.setScaleY(zoomablePane.getScaleY() * zoomFactor);
-
-            event.consume();
-        }
     }
 
     @Override
@@ -170,8 +145,6 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.drawMaze(viewModel.getMaze());
         }
         else if (action_num == 2){
-            int row = mazeDisplayer.getPlayerRow();
-            int col = mazeDisplayer.getPlayerCol();
             int rowChar = viewModel.getRowChar();
             int colChar = viewModel.getColChar();
 
@@ -184,8 +157,24 @@ public class MyViewController implements IView , Initializable, Observer {
         }
         else if (action_num == 5){
             mazeDisplayer.drawMaze(viewModel.getMaze());
+        } else if (action_num == 10) {
+            openWinWindow();
         }
+    }
 
+    public void openWinWindow(){
+        try {
+            Stage newWindow = new Stage();
+            FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("WinWindow.fxml"));
+            Parent root = newWindowLoader.load();
+            Scene newWindowScene = new Scene(root);
+            newWindow.setTitle("Maze Solved!");
+            newWindow.setScene(newWindowScene);
+            newWindow.initModality(Modality.NONE);
+            newWindow.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void newGame(ActionEvent actionEvent){
@@ -290,5 +279,44 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.setTranslateX(translateX);
             mazeDisplayer.setTranslateY(translateY);
         }
+    }
+
+    public void mouseDragged(MouseEvent mouseEvent) {
+        if(viewModel.getMaze() != null) {
+            int maximumSize = Math.max(viewModel.getMaze()[0].length, viewModel.getMaze().length);
+            double mousePosX=helperMouseDragged(maximumSize,mazeDisplayer.getHeight(),
+                    viewModel.getMaze().length,mouseEvent.getX(),mazeDisplayer.getWidth() / maximumSize);
+            double mousePosY=helperMouseDragged(maximumSize,mazeDisplayer.getWidth(),
+                    viewModel.getMaze()[0].length,mouseEvent.getY(),mazeDisplayer.getHeight() / maximumSize);
+            KeyCode keyCode;
+            KeyEvent keyEvent;
+            if ( mousePosX == viewModel.getColChar() && mousePosY < viewModel.getRowChar() ){
+                keyCode = KeyCode.NUMPAD8;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+            else if (mousePosY == viewModel.getRowChar() && mousePosX > viewModel.getColChar() ) {
+                keyCode = KeyCode.NUMPAD6;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+            else if ( mousePosY == viewModel.getRowChar() && mousePosX < viewModel.getColChar() ) {
+                keyCode = KeyCode.NUMPAD4;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+            else if (mousePosX == viewModel.getColChar() && mousePosY > viewModel.getRowChar()  ) {
+                keyCode = KeyCode.NUMPAD2;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+
+        }
+    }
+    private  double helperMouseDragged(int maxsize, double canvasSize, int mazeSize,double mouseEvent,double temp){
+        double cellSize=canvasSize/maxsize;
+        double start = (canvasSize / 2 - (cellSize * mazeSize / 2)) / cellSize;
+        double mouse = (int) ((mouseEvent) / (temp) - start);
+        return mouse;
     }
 }

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="299.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="299.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label prefHeight="121.0" prefWidth="258.0" text="Algoritem to build  maze:" />
-      <Label prefHeight="113.0" prefWidth="258.0" text="Algoritem to build  maze:" />
-      <Label text="Credits:" />
+      <Label prefHeight="37.0" prefWidth="222.0" text="Algoritem to build  maze: Prim algorithm " />
+      <TextField prefHeight="90.0" prefWidth="452.0" text="Prim's algorithm (also known as Jarník's algorithm) is a greedy algorithm that finds a minimum spanning tree for a weighted undirected graph. This means it finds a subset of the edges that forms a tree that includes every vertex, where the total weight of all the edges in the tree is minimized. The algorithm operates by building this tree one vertex at a time, from an arbitrary starting vertex, at each step adding the cheapest possible connection from the tree to another vertex." />
+      <Label prefHeight="113.0" prefWidth="454.0" text="Algoritem to solved maze:" />
+      <TextField prefHeight="108.0" prefWidth="452.0" text="Best-first search is a class of search algorithms, which explores a graph by expanding the most promising node chosen according to a specified rule." />
+      <Label prefHeight="60.0" prefWidth="453.0" text="Credits: Maze game Icy Tower by Noa Argamani and Kobi Zaguri " />
    </children>
 </VBox>
