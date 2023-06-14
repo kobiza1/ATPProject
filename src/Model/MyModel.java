@@ -33,6 +33,7 @@ public class MyModel extends Observable implements IModel{
     private int colChar;
     private Server mazeGeneratorServer;
     private Server mazeSolverServer;
+    private boolean serversAreUp;
 
     public MyModel() {
         maze = null;
@@ -40,9 +41,22 @@ public class MyModel extends Observable implements IModel{
         colChar =0;
         mazeGeneratorServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         mazeSolverServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
+        serversAreUp = false;
 
     }
 
+    public void startServers() {
+        serversAreUp = true;
+        mazeGeneratorServer.start();
+        mazeSolverServer.start();
+    }
+
+    public void stopServers() {
+        if(serversAreUp){
+            mazeGeneratorServer.stop();
+            mazeSolverServer.stop();
+        }
+    }
     public void updateCharacterLocation(int direction)
     {
         /*
@@ -55,58 +69,68 @@ public class MyModel extends Observable implements IModel{
             direction = 7 -> Down - Right
             direction = 8 -> Down - Left
          */
-        int[][] maze_board = maze.getMaze_board();
-        boolean right_conditions = colChar!=maze.getMaze_board()[0].length-1 && maze_board[rowChar][colChar+1] == 0;
-        boolean left_conditions = colChar!=0 && maze_board[rowChar][colChar-1] == 0;
-        boolean up_conditions = rowChar!=0 && maze_board[rowChar-1][colChar] == 0;
-        boolean down_conditions = rowChar!=maze_board.length - 1 && maze_board[rowChar+1][colChar] == 0;
+        if(maze != null){
+            int[][] maze_board = maze.getMaze_board();
+            boolean right_conditions = colChar!=maze.getMaze_board()[0].length-1 && maze_board[rowChar][colChar+1] == 0;
+            boolean left_conditions = colChar!=0 && maze_board[rowChar][colChar-1] == 0;
+            boolean up_conditions = rowChar!=0 && maze_board[rowChar-1][colChar] == 0;
+            boolean down_conditions = rowChar!=maze_board.length - 1 && maze_board[rowChar+1][colChar] == 0;
+            boolean up_right_conditions = (up_conditions || right_conditions) && colChar!=maze.getMaze_board()[0].length-1 && rowChar!=0 && maze_board[rowChar-1][colChar+1] == 0;
+            boolean up_left_conditions = (up_conditions || left_conditions) && rowChar!=0 && colChar!=0 && maze_board[rowChar-1][colChar-1] == 0;
+            boolean down_right_conditions = (down_conditions || right_conditions) && rowChar!=maze_board.length - 1 && colChar!=maze.getMaze_board()[0].length-1 && maze_board[rowChar+1][colChar+1] == 0 ;
+            boolean down_left_conditions = (down_conditions || left_conditions) && rowChar!=maze_board.length - 1 && colChar!=0 && maze_board[rowChar+1][colChar-1] == 0;
 
-        switch(direction)
-        {
-            case 1: // Up
-                if(up_conditions)
-                    rowChar--;
-                break;
+            switch(direction)
+            {
+                case 1: // Up
+                    if(up_conditions)
+                        rowChar--;
+                    break;
 
-            case 2: // Down
-                  if(down_conditions)
+                case 2: // Down
+                      if(down_conditions)
+                            rowChar++;
+                    break;
+                case 3: // Right
+                    if(right_conditions)
+                        colChar++;
+                     break;
+                case 4: // Left
+                    if(left_conditions)
+                        colChar--;
+                    break;
+                case 5: // Up - Right
+                    if(up_right_conditions){
+                        colChar++;
+                        rowChar--;
+                    }
+                    break;
+                case 6: // Up - Left
+                    if(up_left_conditions){
+                        colChar--;
+                        rowChar--;
+                    }
+                    break;
+                case 7: // Down - Right
+                    if(down_right_conditions){
+                        colChar++;
                         rowChar++;
-                break;
-            case 3: // Right
-                if(right_conditions)
-                    colChar++;
-                 break;
-            case 4: // Left
-                if(left_conditions)
-                    colChar--;
-                break;
-            case 5: // Up - Right
-                if(up_conditions && right_conditions){
-                    colChar++;
-                    rowChar--;
-                }
-                break;
-            case 6: // Up - Left
-                if(up_conditions && left_conditions){
-                    colChar--;
-                    rowChar--;
-                }
-                break;
-            case 7: // Down - Right
-                if(down_conditions && right_conditions){
-                    colChar++;
-                    rowChar++;
-                }
-                break;
-            case 8: // Down - Left
-                if(down_conditions && left_conditions){
-                    colChar--;
-                    rowChar--;
-                }
-                break;
+                    }
+                    break;
+                case 8: // Down - Left
+                    if(down_left_conditions){
+                        colChar--;
+                        rowChar++;
+                    }
+                    break;
+            }
+            if(colChar == maze_board[0].length && rowChar == maze_board.length){
+                setChanged();
+                notifyObservers(10); // maze is done!!
+            }
+            setChanged();
+            notifyObservers(2);
         }
-        setChanged();
-        notifyObservers(2);
     }
 
     public int getRowChar() {
@@ -125,7 +149,9 @@ public class MyModel extends Observable implements IModel{
 
     @Override
     public void solveMaze(int[][] maze) {
+        startServers();
         CommunicateWithServer_SolveSearchProblem();
+        stopServers();
         setChanged();
         notifyObservers(3);
     }
@@ -138,13 +164,17 @@ public class MyModel extends Observable implements IModel{
 
     public void generateMaze(int row, int col)
     {
+        startServers();
         CommunicateWithServer_MazeGenerating(row, col);
+        stopServers();
         setChanged();
         notifyObservers(1);
     }
 
     public int[][] getMaze() {
-        return maze.getMaze_board();
+        if(maze != null)
+            return maze.getMaze_board();
+        return null;
     }
 
     public void save_maze(String Path, String name){
@@ -195,8 +225,8 @@ public class MyModel extends Observable implements IModel{
                         byte[] decompressedMaze = new byte[row*col + 8];
                         is.read(decompressedMaze);
                         maze = new Maze(decompressedMaze);
-                    } catch (Exception var10) {
-                        var10.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             });

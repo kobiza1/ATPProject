@@ -41,6 +41,17 @@ public class MyViewModel extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        /*
+        1 --> generate maze
+        2 --> move player
+        3 --> give the user solution
+        4 --> save the maze into file
+        5 --> load the  maze from path
+        .
+        .
+        .
+       10 --> user finished the maze
+         */
         int action_num = 0;
         String str_num = arg.toString();
         action_num = Integer.parseInt(str_num);
