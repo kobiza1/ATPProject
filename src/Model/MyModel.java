@@ -216,7 +216,7 @@ public class MyModel extends Observable implements IModel{
         if(serversAreUp){
             stopServers();
         }
-        exit();
+        System.exit(0);
     }
 
     private void CommunicateWithServer_MazeGenerating(int row, int col)  {
