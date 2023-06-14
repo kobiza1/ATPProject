@@ -42,6 +42,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+import static javafx.scene.input.KeyCode.NUMPAD8;
+
 public class MyViewController implements IView , Initializable, Observer {
     @FXML
     public TextField rowNumber;
@@ -278,5 +280,44 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.getTransforms().add(newScale);
             scrollEvent.consume();
         }
+    }
+
+    public void mouseDragged(MouseEvent mouseEvent) {
+        if(viewModel.getMaze() != null) {
+            int maximumSize = Math.max(viewModel.getMaze()[0].length, viewModel.getMaze().length);
+            double mousePosX=helperMouseDragged(maximumSize,mazeDisplayer.getHeight(),
+                    viewModel.getMaze().length,mouseEvent.getX(),mazeDisplayer.getWidth() / maximumSize);
+            double mousePosY=helperMouseDragged(maximumSize,mazeDisplayer.getWidth(),
+                    viewModel.getMaze()[0].length,mouseEvent.getY(),mazeDisplayer.getHeight() / maximumSize);
+            KeyCode keyCode;
+            KeyEvent keyEvent;
+            if ( mousePosX == viewModel.getColChar() && mousePosY < viewModel.getRowChar() ){
+                keyCode = KeyCode.NUMPAD8;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+            else if (mousePosY == viewModel.getRowChar() && mousePosX > viewModel.getColChar() ) {
+                keyCode = KeyCode.NUMPAD6;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+            else if ( mousePosY == viewModel.getRowChar() && mousePosX < viewModel.getColChar() ) {
+                keyCode = KeyCode.NUMPAD4;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+            else if (mousePosX == viewModel.getColChar() && mousePosY > viewModel.getRowChar()  ) {
+                keyCode = KeyCode.NUMPAD2;
+                keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
+                viewModel.moveCharacter(keyEvent);
+            }
+
+        }
+    }
+    private  double helperMouseDragged(int maxsize, double canvasSize, int mazeSize,double mouseEvent,double temp){
+        double cellSize=canvasSize/maxsize;
+        double start = (canvasSize / 2 - (cellSize * mazeSize / 2)) / cellSize;
+        double mouse = (int) ((mouseEvent) / (temp) - start);
+        return mouse;
     }
 }
