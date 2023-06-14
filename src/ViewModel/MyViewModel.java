@@ -109,9 +109,20 @@ public class MyViewModel extends Observable implements Observer {
         model.updateCharacterLocation(direction);
     }
 
-    public void solveMaze(int [][] maze)
+    public void solveMaze()
     {
         model.solveMaze(maze);
+    }
+
+    public void saveMaze(String path, String name){
+        if(path != null)
+            model.save_maze(path, name);
+    }
+    public void loadMaze(String path) {
+         if(path != null){
+            model.load_maze(path);
+            maze = model.getMaze();
+         }
     }
 
     public ArrayList<AState> getSolution()

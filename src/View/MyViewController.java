@@ -6,14 +6,28 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.application.Application;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.DirectoryChooser;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -67,10 +81,27 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void generateMaze(ActionEvent actionEvent) {
-        viewModel.generateMaze(Integer.parseInt(rowNumber.getText()),Integer.parseInt(colNumber.getText()));
-        mazeDisplayer.drawMaze(viewModel.getMaze());
-        setUpdatePlayerRow("" + mazeDisplayer.getPlayerRow());
-        setUpdatePlayerCol("" + mazeDisplayer.getPlayerCol());
+        int nRow=0;
+        int nCol=0;
+        try {
+            nRow = Integer.parseInt(rowNumber.getText());
+            nCol = Integer.parseInt(colNumber.getText());
+        } catch (NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Don't mess with me, Insert only numbers.");
+            alert.show();
+        }
+
+        if( nRow<0 || nCol<0 ){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Don't mess with me, Insert correct size.");
+            alert.show();
+        } else {
+            viewModel.generateMaze(nRow, nCol);
+            mazeDisplayer.drawMaze(viewModel.getMaze());
+            setUpdatePlayerRow("" + mazeDisplayer.getPlayerRow());
+            setUpdatePlayerCol("" + mazeDisplayer.getPlayerCol());
+        }
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -114,16 +145,35 @@ public class MyViewController implements IView , Initializable, Observer {
 
     }
     public void saveGame(ActionEvent actionEvent){
-
+       String path = ChooseDirectory();
+       viewModel.saveMaze(path, "generic_name.ser");
     }
     public void loadGame(ActionEvent actionEvent){
-
+        String path = openFileManager();
+        viewModel.loadMaze(path);
+        mazeDisplayer.drawMaze(viewModel.getMaze());
     }
     public void propertiesGame(ActionEvent actionEvent){
 
     }
     public void aboutGame(ActionEvent actionEvent){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Don't mess with me, Insert only numbers.");
+        alert.show();
+//        Stage newWindow = new Stage();
+//        FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("src/View/AboutWindow.fxml"));
+//        try {
+//            Parent newWindowRoot = newWindowLoader.load();
+//            Scene newWindowScene = new Scene(newWindowRoot, 500, 500);
+//            newWindow.setScene(newWindowScene);
+//            newWindow.show();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+    }
 
+    public void GoBack(ActionEvent actionEvent) {
+        
     }
     public void helpGame(ActionEvent actionEvent){
 
@@ -131,4 +181,28 @@ public class MyViewController implements IView , Initializable, Observer {
     public void exitGame(ActionEvent actionEvent){
 
     }
+    private String openFileManager() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose File");
+
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Serialized Objects (*.ser)", "*.ser");
+        fileChooser.getExtensionFilters().add(filter);
+        Stage temporaryStage = new Stage();
+        File selectedFile = fileChooser.showSaveDialog(temporaryStage);
+        if(selectedFile != null)
+            return selectedFile.getPath();
+        return null;
+    }
+    public String ChooseDirectory() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose Destination Folder");
+        Stage temporaryStage = new Stage();
+        File selectedDirectory = directoryChooser.showDialog(temporaryStage);
+        if (selectedDirectory != null)
+            return selectedDirectory.getPath();
+        return null;
+    }
+
+
+
 }
