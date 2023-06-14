@@ -1,9 +1,11 @@
 package ViewModel;
 
 import Model.IModel;
+import algorithms.search.AState;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,10 +13,11 @@ import java.util.Observer;
 public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
+
+    private ArrayList<AState> solution;
     private int [][] maze;
     private int rowChar;
     private int colChar;
-
 
     public MyViewModel(IModel model) {
         this.model = model;
@@ -38,12 +41,22 @@ public class MyViewModel extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        /*
+        1 --> generate maze
+        2 --> move player
+        3 --> give the user solution
+        4 --> save the maze into file
+        5 --> load the  maze from path
+        .
+        .
+        .
+       10 --> user finished the maze
+         */
         int action_num = 0;
         String str_num = arg.toString();
         action_num = Integer.parseInt(str_num);
 
-        if(action_num == 1)//generateMaze
-        {
+        if(action_num == 1) {
             this.maze = model.getMaze();
         }
         else if (action_num == 2){
@@ -51,7 +64,8 @@ public class MyViewModel extends Observable implements Observer {
             colChar = model.getColChar();
         }
         else if(action_num == 3)
-            model.getSolution();
+            solution = model.getSolution();
+
         setChanged();
         notifyObservers(action_num);
     }
@@ -66,17 +80,29 @@ public class MyViewModel extends Observable implements Observer {
         int direction = -1;
 
         switch (keyEvent.getCode()){
-            case UP:
+            case NUMPAD8:
                 direction = 1;
                 break;
-            case DOWN:
+            case NUMPAD2:
                 direction = 2;
                 break;
-            case LEFT:
+            case NUMPAD6:
                 direction = 3;
                 break;
-            case RIGHT:
+            case NUMPAD4:
                 direction = 4;
+                break;
+            case NUMPAD9:
+                direction = 5;
+                break;
+            case NUMPAD7:
+                direction = 6;
+                break;
+            case NUMPAD3:
+                direction = 7;
+                break;
+            case NUMPAD1:
+                direction = 8;
                 break;
         }
 
@@ -88,7 +114,7 @@ public class MyViewModel extends Observable implements Observer {
         model.solveMaze(maze);
     }
 
-    public Solution getSolution()
+    public ArrayList<AState> getSolution()
     {
         return model.getSolution();
     }

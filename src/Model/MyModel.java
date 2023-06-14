@@ -33,6 +33,7 @@ public class MyModel extends Observable implements IModel{
     private int colChar;
     private Server mazeGeneratorServer;
     private Server mazeSolverServer;
+    private boolean serversAreUp;
 
     public MyModel() {
         maze = null;
@@ -40,42 +41,96 @@ public class MyModel extends Observable implements IModel{
         colChar =0;
         mazeGeneratorServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         mazeSolverServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
+        serversAreUp = false;
 
     }
 
+    public void startServers() {
+        serversAreUp = true;
+        mazeGeneratorServer.start();
+        mazeSolverServer.start();
+    }
+
+    public void stopServers() {
+        if(serversAreUp){
+            mazeGeneratorServer.stop();
+            mazeSolverServer.stop();
+        }
+    }
     public void updateCharacterLocation(int direction)
     {
         /*
             direction = 1 -> Up
             direction = 2 -> Down
-            direction = 3 -> Left
-            direction = 4 -> Right
+            direction = 3 -> Right
+            direction = 4 -> Left
+            direction = 5 -> Up - Right
+            direction = 6 -> Up - Left
+            direction = 7 -> Down - Right
+            direction = 8 -> Down - Left
          */
-        int[][] maze_board = maze.getMaze_board();
-        switch(direction)
-        {
-            case 1: //Up
-                if(rowChar!=0)
-                    rowChar--;
-                break;
+        if(maze != null){
+            int[][] maze_board = maze.getMaze_board();
+            boolean right_conditions = colChar!=maze.getMaze_board()[0].length-1 && maze_board[rowChar][colChar+1] == 0;
+            boolean left_conditions = colChar!=0 && maze_board[rowChar][colChar-1] == 0;
+            boolean up_conditions = rowChar!=0 && maze_board[rowChar-1][colChar] == 0;
+            boolean down_conditions = rowChar!=maze_board.length - 1 && maze_board[rowChar+1][colChar] == 0;
+            boolean up_right_conditions = (up_conditions || right_conditions) && colChar!=maze.getMaze_board()[0].length-1 && rowChar!=0 && maze_board[rowChar-1][colChar+1] == 0;
+            boolean up_left_conditions = (up_conditions || left_conditions) && rowChar!=0 && colChar!=0 && maze_board[rowChar-1][colChar-1] == 0;
+            boolean down_right_conditions = (down_conditions || right_conditions) && rowChar!=maze_board.length - 1 && colChar!=maze.getMaze_board()[0].length-1 && maze_board[rowChar+1][colChar+1] == 0 ;
+            boolean down_left_conditions = (down_conditions || left_conditions) && rowChar!=maze_board.length - 1 && colChar!=0 && maze_board[rowChar+1][colChar-1] == 0;
 
-            case 2: //Down
-                  if(rowChar!=maze_board.length - 1)
+            switch(direction)
+            {
+                case 1: // Up
+                    if(up_conditions)
+                        rowChar--;
+                    break;
+
+                case 2: // Down
+                      if(down_conditions)
+                            rowChar++;
+                    break;
+                case 3: // Right
+                    if(right_conditions)
+                        colChar++;
+                     break;
+                case 4: // Left
+                    if(left_conditions)
+                        colChar--;
+                    break;
+                case 5: // Up - Right
+                    if(up_right_conditions){
+                        colChar++;
+                        rowChar--;
+                    }
+                    break;
+                case 6: // Up - Left
+                    if(up_left_conditions){
+                        colChar--;
+                        rowChar--;
+                    }
+                    break;
+                case 7: // Down - Right
+                    if(down_right_conditions){
+                        colChar++;
                         rowChar++;
-                break;
-            case 3: //Left
-                if(colChar!=0)
-                    colChar--;
-                 break;
-            case 4: //Right
-                if(colChar!=maze.getMaze_board()[0].length-1)
-                    colChar++;
-                break;
-
+                    }
+                    break;
+                case 8: // Down - Left
+                    if(down_left_conditions){
+                        colChar--;
+                        rowChar++;
+                    }
+                    break;
+            }
+            if(colChar == maze_board[0].length && rowChar == maze_board.length){
+                setChanged();
+                notifyObservers(10); // maze is done!!
+            }
+            setChanged();
+            notifyObservers(2);
         }
-
-        setChanged();
-        notifyObservers(2);
     }
 
     public int getRowChar() {
@@ -94,26 +149,63 @@ public class MyModel extends Observable implements IModel{
 
     @Override
     public void solveMaze(int[][] maze) {
+        startServers();
         CommunicateWithServer_SolveSearchProblem();
+        stopServers();
         setChanged();
         notifyObservers(3);
     }
 
     @Override
-    public Solution getSolution() {
-        return solution;
+    public ArrayList<AState> getSolution() {
+        return solution.getSolutionPath();
     }
 
 
     public void generateMaze(int row, int col)
     {
+        startServers();
         CommunicateWithServer_MazeGenerating(row, col);
+        stopServers();
         setChanged();
         notifyObservers(1);
     }
 
     public int[][] getMaze() {
-        return maze.getMaze_board();
+        if(maze != null)
+            return maze.getMaze_board();
+        return null;
+    }
+
+    public void save_maze(String Path, String name){
+        try {
+            File MazeFile = new File(Path);
+            File newFile_maze = new File(MazeFile, name);
+            FileOutputStream fileOutput_maze = new FileOutputStream(newFile_maze.getPath());
+            ObjectOutputStream objectOutput_maze = new ObjectOutputStream(fileOutput_maze);
+            objectOutput_maze.writeObject(maze);
+            setChanged();
+            notifyObservers(4);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void load_maze(String Path){
+        try{
+        File file = new File(Path);
+        FileInputStream fileInput = new FileInputStream(file.getPath());
+        ObjectInputStream objectInput = new ObjectInputStream(fileInput);
+        Object retrievedObject = objectInput.readObject();
+        if(retrievedObject instanceof Maze){
+            maze = (Maze)retrievedObject;
+            setChanged();
+            notifyObservers(5);
+        }
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void CommunicateWithServer_MazeGenerating(int row, int col)  {
@@ -133,8 +225,8 @@ public class MyModel extends Observable implements IModel{
                         byte[] decompressedMaze = new byte[row*col + 8];
                         is.read(decompressedMaze);
                         maze = new Maze(decompressedMaze);
-                    } catch (Exception var10) {
-                        var10.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             });
@@ -166,5 +258,7 @@ public class MyModel extends Observable implements IModel{
             var1.printStackTrace();
         }
     }
+
+
 }
 
