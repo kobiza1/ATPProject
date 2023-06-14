@@ -93,7 +93,7 @@
               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
           </BorderPane.margin>
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="400.0" width="400.0" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" onKeyPressed="#keyPressed"/>
+               <MazeDisplayer fx:id="mazeDisplayer" BorderPane.alignment="CENTER" height="400.0" width="400.0" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" onKeyPressed="#keyPressed"/>
            </children>
           <padding>
               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
