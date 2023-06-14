@@ -160,8 +160,8 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public ArrayList<AState> getSolution() {
-        return solution.getSolutionPath();
+    public Solution getSolution() {
+        return solution;
     }
 
 
@@ -268,7 +268,5 @@ public class MyModel extends Observable implements IModel{
             var1.printStackTrace();
         }
     }
-
-
 }
 

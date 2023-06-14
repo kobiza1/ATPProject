@@ -29,12 +29,21 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#propertiesGame" text="Properties" />
+              <MenuItem mnemonicParsing="false" onAction="#propertiesGame" text="Button" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" onAction="#helpGame" text="Help" />
-            <Menu mnemonicParsing="false" onAction="#aboutGame" text="About" />
-            <Menu mnemonicParsing="false" onAction="#exitGame" text="Exit" />
+          <Menu fx:id="helpButton" mnemonicParsing="false" onAction="#helpGame">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#helpGame" text="Help" />
+               </graphic></Menu>
+            <Menu fx:id="aboutButton" mnemonicParsing="false" onAction="#aboutGame">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#aboutGame" text="About" />
+               </graphic></Menu>
+            <Menu fx:id="exitButton" mnemonicParsing="false" onAction="#exitGame">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#exitGame" text="Exit" />
+               </graphic></Menu>
         </menus>
       </MenuBar>
    </top>
@@ -81,7 +90,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="400.0" width="400.0" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" onKeyPressed="#keyPressed"/>
+               <MazeDisplayer fx:id="mazeDisplayer" height="400.0" width="400.0" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" onKeyPressed="#keyPressed"/>
            </children>
       </Pane>
    </center>
