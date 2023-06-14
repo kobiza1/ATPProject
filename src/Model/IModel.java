@@ -12,7 +12,7 @@ public interface IModel {
     public void updateCharacterLocation(int direction);
     public int getRowChar();
     public int getColChar();
-    public void assignObserver(Observer o);
+   public void assignObserver(Observer o);
     public void solveMaze(int [][] maze);
     public ArrayList<AState> getSolution();
 }

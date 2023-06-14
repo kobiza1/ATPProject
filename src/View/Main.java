@@ -5,28 +5,28 @@ import Model.MyModel;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application{
+import java.io.IOException;
 
-        @Override
-        public void start(Stage primaryStage) throws Exception{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
-            Parent root = fxmlLoader.load();
-            primaryStage.setTitle("Hello World");
-            primaryStage.setScene(new Scene(root, 1000, 700));
-            primaryStage.show();
+public class Main extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MyView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        stage.setTitle("Icy Tower Maze");
+        stage.setScene(scene);
+        stage.show();
 
-            IModel model = new MyModel();
-            MyViewModel viewModel = new MyViewModel(model);
-            View view = fxmlLoader.getController();
-            view.setViewModel(viewModel);
-        }
+        IModel model = new MyModel();
+        MyViewModel viewModel = new MyViewModel(model);
+        MyViewController controller = fxmlLoader.getController();
+        controller.setViewModel(viewModel);
+        viewModel.assignObserver(controller);
+    }
 
-        public static void main(String[] args) {
-            launch();
-        }
-
+    public static void main(String[] args) {
+        launch();
+    }
 }
