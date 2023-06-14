@@ -19,21 +19,15 @@ public class MyViewModel extends Observable implements Observer {
         this.model.assignObserver(this);
         this.maze = null;
     }
-
-
     public int[][] getMaze() {
         return maze;
     }
-
-
     public int getRowChar() {
         return rowChar;
     }
-
     public int getColChar() {
         return colChar;
     }
-
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof IModel)
@@ -71,8 +65,6 @@ public class MyViewModel extends Observable implements Observer {
             notifyObservers();
         }
     }
-
-
     public void generateMaze(int row,int col)
     {
         this.model.generateMaze(row,col);

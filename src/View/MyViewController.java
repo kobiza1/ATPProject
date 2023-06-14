@@ -9,13 +9,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class MyViewController implements IView {
-
     public TextField rowNumber;
     public TextField colNumber;
     public MyViewModel viewModel;
@@ -130,5 +130,10 @@ public class MyViewController implements IView {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
+    }
+
+    public void keyPressed(KeyEvent keyEvent) {
+        viewModel.moveCharacter(keyEvent);
+        keyEvent.consume();
     }
 }

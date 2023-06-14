@@ -63,18 +63,18 @@ public class View implements Initializable,Observer {
 
 
 
-    public void generateMaze()
-    {
-        int rows = Integer.valueOf(textField_mazeRows.getText());
-        int cols = Integer.valueOf(textField_mazeColumns.getText());
-        viewModel.generateMaze(rows,cols);
-    }
-
-    public void solveMaze()
-    {
-        viewModel.solveMaze(this.maze);
-
-    }
+//    public void generateMaze()
+//    {
+//        int rows = Integer.valueOf(textField_mazeRows.getText());
+//        int cols = Integer.valueOf(textField_mazeColumns.getText());
+//        viewModel.generateMaze(rows,cols);
+//    }
+//
+//    public void solveMaze()
+//    {
+//        viewModel.solveMaze(this.maze);
+//
+//    }
 
 
     public void showAlert(String message)
