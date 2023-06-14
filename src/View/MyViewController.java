@@ -109,4 +109,26 @@ public class MyViewController implements IView , Initializable, Observer {
         }
 
     }
+
+    public void newGame(ActionEvent actionEvent){
+
+    }
+    public void saveGame(ActionEvent actionEvent){
+
+    }
+    public void loadGame(ActionEvent actionEvent){
+
+    }
+    public void propertiesGame(ActionEvent actionEvent){
+
+    }
+    public void aboutGame(ActionEvent actionEvent){
+
+    }
+    public void helpGame(ActionEvent actionEvent){
+
+    }
+    public void exitGame(ActionEvent actionEvent){
+
+    }
 }
