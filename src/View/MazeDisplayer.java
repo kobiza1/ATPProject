@@ -1,5 +1,6 @@
 package View;
 
+import algorithms.search.Solution;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -12,17 +13,23 @@ import java.io.FileNotFoundException;
 
 public class MazeDisplayer extends Canvas {
     private int[][] maze;
+    private Solution solution;
     private int playerRow = 0;
     private int playerCol = 0;
     // wall and player images:
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
+    StringProperty imageFileNameSolution = new SimpleStringProperty();
 
     public String getImageFileNameWall() {
         return imageFileNameWall.get();
     }
+
     public String getImageFileNamePlayer() {
         return imageFileNamePlayer.get();
+    }
+    public String getImageFileNameSolution() {
+        return imageFileNameSolution.get();
     }
     public void setImageFileNameWall(String imageFileNameWall) {
         this.imageFileNameWall.set(imageFileNameWall);
@@ -30,23 +37,36 @@ public class MazeDisplayer extends Canvas {
     public void setImageFileNamePlayer(String imageFileNamePlayer) {
         this.imageFileNamePlayer.set(imageFileNamePlayer);
     }
+    public void setImageFileNameSolution(String imageFileNameSolution) {
+        this.imageFileNameSolution.set(imageFileNameSolution);
+    }
+
     public int getPlayerRow() {
         return playerRow;
     }
+
     public int getPlayerCol() {
         return playerCol;
     }
+
     public void setPlayerPosition(int row, int col) {
         this.playerRow = row;
         this.playerCol = col;
         draw();
     }
+
+    public void setSolution(Solution solution) {
+        this.solution = solution;
+        draw();
+    }
+
     public void drawMaze(int[][] maze) {
         this.maze = maze;
         draw();
     }
+
     private void draw() {
-        if(maze != null){
+        if (maze != null) {
             double canvasHeight = getHeight();
             double canvasWidth = getWidth();
             int rows = maze.length;
@@ -65,11 +85,10 @@ public class MazeDisplayer extends Canvas {
     }
 
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
-        if(maze != null){
-            //graphicsContext.setFill(Color.RED);
+        if (maze != null) {
 
             Image wallImage = null;
-            try{
+            try {
                 wallImage = new Image(new FileInputStream(getImageFileNameWall()));
             } catch (FileNotFoundException e) {
                 System.out.println("There is no wall image file");
@@ -77,15 +96,11 @@ public class MazeDisplayer extends Canvas {
 
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    if(maze[i][j] == 1){
+                    if (maze[i][j] == 1) {
                         //if it is a wall:
                         double x = j * cellWidth;
                         double y = i * cellHeight;
-                        //graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-//                        if(wallImage == null)
-//                            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-//                        else
-                            graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
+                        graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                     }
                 }
             }
@@ -103,9 +118,16 @@ public class MazeDisplayer extends Canvas {
         } catch (FileNotFoundException e) {
             System.out.println("There is no player image file");
         }
-        if(playerImage == null)
+        if (playerImage == null)
             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
         else
             graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
     }
+
+    private void drawSolution(GraphicsContext graphicsContext, double cellHeight, double cellWidth) {
+        // need to be implemented
+        System.out.println("drawing solution...");
+    }
 }
+
+

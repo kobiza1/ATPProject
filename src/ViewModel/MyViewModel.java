@@ -14,7 +14,7 @@ public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
 
-    private ArrayList<AState> solution;
+    private Solution solution;
     private int [][] maze;
     private int rowChar;
     private int colChar;
@@ -125,7 +125,7 @@ public class MyViewModel extends Observable implements Observer {
          }
     }
 
-    public ArrayList<AState> getSolution()
+    public Solution getSolution()
     {
         return model.getSolution();
     }

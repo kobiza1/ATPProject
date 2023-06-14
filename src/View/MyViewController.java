@@ -21,9 +21,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.DirectoryChooser;
-import java.awt.Desktop;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -105,6 +107,11 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
+        viewModel.solveMaze();
+    }
+
+    private void mazeSolved() {
+        mazeDisplayer.setSolution(viewModel.getSolution());
     }
 
     public void keyPressed(KeyEvent keyEvent) {
@@ -142,7 +149,7 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void newGame(ActionEvent actionEvent){
-
+        generateMaze(actionEvent);
     }
     public void saveGame(ActionEvent actionEvent){
        String path = ChooseDirectory();
@@ -156,28 +163,35 @@ public class MyViewController implements IView , Initializable, Observer {
     public void propertiesGame(ActionEvent actionEvent){
 
     }
-    public void aboutGame(ActionEvent actionEvent){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Don't mess with me, Insert only numbers.");
-        alert.show();
-//        Stage newWindow = new Stage();
-//        FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("src/View/AboutWindow.fxml"));
-//        try {
-//            Parent newWindowRoot = newWindowLoader.load();
-//            Scene newWindowScene = new Scene(newWindowRoot, 500, 500);
-//            newWindow.setScene(newWindowScene);
-//            newWindow.show();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-    }
-
-    public void GoBack(ActionEvent actionEvent) {
-        
+    public void aboutGame(ActionEvent actionEvent) {
+        try {
+            Stage newWindow = new Stage();
+            FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("AboutWindow.fxml"));
+            Parent root = newWindowLoader.load();
+            Scene newWindowScene = new Scene(root);
+            newWindow.setTitle("About");
+            newWindow.setScene(newWindowScene);
+            newWindow.initModality(Modality.NONE);
+            newWindow.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
     public void helpGame(ActionEvent actionEvent){
-
+        try {
+            Stage newWindow = new Stage();
+            FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+            Parent root = newWindowLoader.load();
+            Scene newWindowScene = new Scene(root);
+            newWindow.setTitle("Help");
+            newWindow.setScene(newWindowScene);
+            newWindow.initModality(Modality.NONE);
+            newWindow.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
+
     public void exitGame(ActionEvent actionEvent){
 
     }
