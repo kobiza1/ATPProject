@@ -16,8 +16,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
@@ -51,6 +54,9 @@ public class MyViewController implements IView , Initializable, Observer {
     StringProperty updatePlayerCol = new SimpleStringProperty();
     public MyViewModel viewModel;
     public MazeDisplayer mazeDisplayer;
+    @FXML
+    public Pane zoomablePane;
+    public boolean isCtrlPressed = false;
 
     public MyViewController(){
         MyModel model = new MyModel();
@@ -119,9 +125,37 @@ public class MyViewController implements IView , Initializable, Observer {
         mazeDisplayer.setSolution(viewModel.getSolution());
 
     }
-
+    @FXML
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
+    }
+    @FXML
+    private void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.CONTROL) {
+            isCtrlPressed = true;
+        }
+    }
+    @FXML
+    private void handleKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.CONTROL) {
+            isCtrlPressed = false;
+        }
+    }
+    @FXML
+    private void handleMouseScroll(ScrollEvent event) {
+        if (isCtrlPressed) {
+            double zoomFactor = 1.1;
+            double deltaY = event.getDeltaY();
+
+            if (deltaY < 0) {
+                zoomFactor = 1 / zoomFactor;
+            }
+
+            zoomablePane.setScaleX(zoomablePane.getScaleX() * zoomFactor);
+            zoomablePane.setScaleY(zoomablePane.getScaleY() * zoomFactor);
+
+            event.consume();
+        }
     }
 
     @Override

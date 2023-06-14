@@ -88,7 +88,7 @@
       </VBox>
    </left>
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="zoomablePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
            <children>
                <MazeDisplayer fx:id="mazeDisplayer" height="400.0" width="400.0" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" onKeyPressed="#keyPressed"/>
            </children>
