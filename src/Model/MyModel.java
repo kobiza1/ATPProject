@@ -39,9 +39,9 @@ public class MyModel extends Observable implements IModel{
         maze = null;
         rowChar =0;
         colChar =0;
+        serversAreUp = false;
         mazeGeneratorServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         mazeSolverServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
-        serversAreUp = false;
 
     }
 
@@ -164,6 +164,7 @@ public class MyModel extends Observable implements IModel{
 
     public void generateMaze(int row, int col)
     {
+
         startServers();
         CommunicateWithServer_MazeGenerating(row, col);
         stopServers();
