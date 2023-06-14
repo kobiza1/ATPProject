@@ -69,6 +69,8 @@ public class MyViewModel extends Observable implements Observer {
              solution = get_ints_from_Astates(model.getSolution());
         else if (action_num == 5) {
             maze = model.getMaze();
+        } else if (action_num == 10) {
+
         }
 
         setChanged();

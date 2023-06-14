@@ -7,6 +7,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,7 +18,7 @@
 
 <?import View.MazeDisplayer?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#mouseClicked" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@MyStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#mouseClicked" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(Images/background.png); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -32,6 +34,11 @@
               <MenuItem mnemonicParsing="false" onAction="#propertiesGame" text="Button" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="                                                                                                      ">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
           <Menu fx:id="helpButton" mnemonicParsing="false" onAction="#helpGame">
                <graphic>
                   <Button mnemonicParsing="false" onAction="#helpGame" text="Help" />
@@ -71,19 +78,24 @@
                   </Button>
                   <TextField fx:id="colNumber" prefHeight="17.0" prefWidth="70.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="rowNumber" prefHeight="26.0" prefWidth="139.0" GridPane.columnIndex="1" />
-                  <Label text=" Maze Rows:" />
-                  <Label text="Maze Columns:" GridPane.rowIndex="1" />
+                  <Label text=" Maze Rows:" textFill="WHITE" textOverrun="WORD_ELLIPSIS" />
+                  <Label text="Maze Columns:" textFill="WHITE" GridPane.rowIndex="1" />
                   <Button mnemonicParsing="false" onAction="#generateMaze" prefHeight="25.0" prefWidth="115.0" text="Start Game" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="15.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label text="Player Row:" GridPane.rowIndex="4" />
-                  <Label text="Player Column:" GridPane.rowIndex="5" />
-                  <TextField fx:id="playerRow" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="playerCol" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label text="Player Row:" textFill="WHITE" GridPane.rowIndex="4" />
+                  <Label text="Player Column:" textFill="WHITE" GridPane.rowIndex="5" />
+                  <Label fx:id="playerRow" text="Label" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="playerCol" text="Label" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
+            <ImageView fx:id="icon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/Images/Icon.png" />
+               </image>
+            </ImageView>
          </children>
       </VBox>
    </left>
@@ -93,7 +105,7 @@
               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
           </BorderPane.margin>
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" height="400.0" width="400.0" onKeyPressed="#keyPressed" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" />
+               <MazeDisplayer fx:id="mazeDisplayer" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" height="700.0" width="700.0" onKeyPressed="#keyPressed" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" />
            </children>
           <padding>
               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

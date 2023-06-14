@@ -81,8 +81,6 @@ public class MazeDisplayer extends Canvas {
 
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
         if(maze != null){
-            //graphicsContext.setFill(Color.RED);
-
             Image wallImage = null;
             try{
                 wallImage = new Image(new FileInputStream(getImageFileNameWall()));
@@ -96,11 +94,7 @@ public class MazeDisplayer extends Canvas {
                         //if it is a wall:
                         double x = j * cellWidth;
                         double y = i * cellHeight;
-                        //graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-//                        if(wallImage == null)
-//                            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-//                        else
-                            graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
+                        graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                     }
                 }
             }

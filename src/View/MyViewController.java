@@ -14,8 +14,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -50,16 +52,16 @@ public class MyViewController implements IView , Initializable, Observer {
     @FXML
     public TextField colNumber;
     @FXML
-    public TextField playerRow;
+    public Label playerRow;
     @FXML
-    public TextField playerCol;
+    public Label playerCol;
     StringProperty updatePlayerRow = new SimpleStringProperty();
     StringProperty updatePlayerCol = new SimpleStringProperty();
+
     public MyViewModel viewModel;
-    public MazeDisplayer mazeDisplayer;
     @FXML
-    public Pane zoomablePane;
-    public boolean isCtrlPressed = false;
+    public MazeDisplayer mazeDisplayer;
+
 
     public MyViewController(){
         MyModel model = new MyModel();
@@ -126,39 +128,10 @@ public class MyViewController implements IView , Initializable, Observer {
     }
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
-
     }
     @FXML
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
-    }
-    @FXML
-    private void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.CONTROL) {
-            isCtrlPressed = true;
-        }
-    }
-    @FXML
-    private void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.CONTROL) {
-            isCtrlPressed = false;
-        }
-    }
-    @FXML
-    private void handleMouseScroll(ScrollEvent event) {
-        if (isCtrlPressed) {
-            double zoomFactor = 1.1;
-            double deltaY = event.getDeltaY();
-
-            if (deltaY < 0) {
-                zoomFactor = 1 / zoomFactor;
-            }
-
-            zoomablePane.setScaleX(zoomablePane.getScaleX() * zoomFactor);
-            zoomablePane.setScaleY(zoomablePane.getScaleY() * zoomFactor);
-
-            event.consume();
-        }
     }
 
     @Override
@@ -171,8 +144,6 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.drawMaze(viewModel.getMaze());
         }
         else if (action_num == 2){
-            int row = mazeDisplayer.getPlayerRow();
-            int col = mazeDisplayer.getPlayerCol();
             int rowChar = viewModel.getRowChar();
             int colChar = viewModel.getColChar();
 
@@ -185,8 +156,24 @@ public class MyViewController implements IView , Initializable, Observer {
         }
         else if (action_num == 5){
             mazeDisplayer.drawMaze(viewModel.getMaze());
+        } else if (action_num == 10) {
+            openWinWindow();
         }
+    }
 
+    public void openWinWindow(){
+        try {
+            Stage newWindow = new Stage();
+            FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("WinWindow.fxml"));
+            Parent root = newWindowLoader.load();
+            Scene newWindowScene = new Scene(root);
+            newWindow.setTitle("Maze Solved!");
+            newWindow.setScene(newWindowScene);
+            newWindow.initModality(Modality.NONE);
+            newWindow.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void newGame(ActionEvent actionEvent){
