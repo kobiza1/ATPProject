@@ -23,6 +23,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.application.Application;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -263,5 +264,19 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
 
-
+    public void setOnScroll(ScrollEvent scrollEvent) {
+        if (scrollEvent.isControlDown()) {
+            double zoom_fac = 1.05;
+            if (scrollEvent.getDeltaY() < 0) {
+                zoom_fac = 2.0 - zoom_fac;
+            }
+            Scale newScale = new Scale();
+            newScale.setPivotX(scrollEvent.getX());
+            newScale.setPivotY(scrollEvent.getY());
+            newScale.setX(mazeDisplayer.getScaleX() * zoom_fac);
+            newScale.setY(mazeDisplayer.getScaleY() * zoom_fac);
+            mazeDisplayer.getTransforms().add(newScale);
+            scrollEvent.consume();
+        }
+    }
 }
