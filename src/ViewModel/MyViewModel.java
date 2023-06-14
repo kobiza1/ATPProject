@@ -1,7 +1,9 @@
 package ViewModel;
 
 import Model.IModel;
+import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
+import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
@@ -14,7 +16,7 @@ public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
 
-    private ArrayList<AState> solution;
+    private ArrayList<Integer> solution;
     private int [][] maze;
     private int rowChar;
     private int colChar;
@@ -64,10 +66,25 @@ public class MyViewModel extends Observable implements Observer {
             colChar = model.getColChar();
         }
         else if(action_num == 3)
-            solution = model.getSolution();
+             solution = get_ints_from_Astates(model.getSolution());
+        else if (action_num == 5) {
+            maze = model.getMaze();
+        }
 
         setChanged();
         notifyObservers(action_num);
+    }
+
+    private ArrayList<Integer> get_ints_from_Astates(ArrayList<AState> solution) {
+        ArrayList<Integer> position_in_ints = new ArrayList<>();
+        for(AState as : solution){
+            if(as instanceof MazeState){
+                Position p = ((MazeState) as).getPosition();
+                position_in_ints.add(p.getRowIndex());
+                position_in_ints.add(p.getColumnIndex());
+            }
+        }
+        return position_in_ints;
     }
 
     public void generateMaze(int row,int col)
@@ -118,19 +135,30 @@ public class MyViewModel extends Observable implements Observer {
         if(path != null)
             model.save_maze(path, name);
     }
-    public void loadMaze(String path) {
+    public boolean loadMaze(String path) {
          if(path != null){
+            String extension = getFileExtension(path);
+            if(!extension.equals(".ser"))
+                return false;
             model.load_maze(path);
-            maze = model.getMaze();
+            return true;
          }
+         return false;
     }
 
-    public ArrayList<AState> getSolution()
+    public ArrayList<Integer> getSolution()
     {
-        return model.getSolution();
+        return this.solution;
     }
     public void assignObserver(Observer o) {
         this.addObserver(o);
+    }
+    private String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex);
+        }
+        return "";
     }
 }
 

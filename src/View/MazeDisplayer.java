@@ -1,22 +1,35 @@
 package View;
 
+import algorithms.search.AState;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class MazeDisplayer extends Canvas {
     private int[][] maze;
     private int playerRow = 0;
     private int playerCol = 0;
+    private ArrayList<Integer> solution = new ArrayList();
     // wall and player images:
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
+
+    public String getImageFileNameSolution() {
+        return ImageFileNameSolution.get();
+    }
+
+    public StringProperty imageFileNameSolutionProperty() {
+        return ImageFileNameSolution;
+    }
+
+    StringProperty ImageFileNameSolution = new SimpleStringProperty();
+
 
     public String getImageFileNameWall() {
         return imageFileNameWall.get();
@@ -43,7 +56,7 @@ public class MazeDisplayer extends Canvas {
     }
     public void drawMaze(int[][] maze) {
         this.maze = maze;
-        draw();
+        setPlayerPosition(0, 0);
     }
     private void draw() {
         if(maze != null){
@@ -107,5 +120,24 @@ public class MazeDisplayer extends Canvas {
             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
         else
             graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
+    }
+
+    public void drawSolution(GraphicsContext graphicsContext, double cell_height, double cell_width){
+        Image SolutionImage = null;
+        try{
+            SolutionImage = new Image(new FileInputStream(getImageFileNameSolution()));
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no wall image file");
+        }
+        double x,y;
+        for(int i=0; i<solution.size(); i+=2){
+            x = solution.get(i+1)*cell_width;
+            y = solution.get(i)*cell_height;
+            graphicsContext.drawImage(SolutionImage, x, y, cell_width, cell_height);
+        }
+    }
+
+    public void setSolution(ArrayList<Integer> solution) {
+        this.solution = solution;
     }
 }

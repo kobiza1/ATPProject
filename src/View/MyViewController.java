@@ -53,6 +53,7 @@ public class MyViewController implements IView , Initializable, Observer {
     public MyViewController(){
         MyModel model = new MyModel();
         viewModel = new MyViewModel(model);
+        mazeDisplayer = new MazeDisplayer();
     }
 
     public void setViewModel(MyViewModel viewModel) {
@@ -111,6 +112,9 @@ public class MyViewController implements IView , Initializable, Observer {
         viewModel.moveCharacter(keyEvent);
         keyEvent.consume();
     }
+    private void mazeSolved() {
+        mazeDisplayer.setSolution(viewModel.getSolution());
+    }
 
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
@@ -136,7 +140,10 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.setPlayerPosition(rowChar, colChar);
         }
         else if(action_num == 3) {
-            //solution
+            mazeSolved();
+        }
+        else if (action_num == 5){
+            mazeDisplayer.drawMaze(viewModel.getMaze());
         }
 
     }
@@ -150,8 +157,10 @@ public class MyViewController implements IView , Initializable, Observer {
     }
     public void loadGame(ActionEvent actionEvent){
         String path = openFileManager();
-        viewModel.loadMaze(path);
-        mazeDisplayer.drawMaze(viewModel.getMaze());
+        boolean loaded = viewModel.loadMaze(path);
+        if(!loaded){
+            show_error("Wrong type of file. Please try again");
+        }
     }
     public void propertiesGame(ActionEvent actionEvent){
 
@@ -183,17 +192,17 @@ public class MyViewController implements IView , Initializable, Observer {
     }
     private String openFileManager() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose File");
+        fileChooser.setTitle("Select File");
 
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Serialized Objects (*.ser)", "*.ser");
-        fileChooser.getExtensionFilters().add(filter);
         Stage temporaryStage = new Stage();
-        File selectedFile = fileChooser.showSaveDialog(temporaryStage);
-        if(selectedFile != null)
-            return selectedFile.getPath();
+        File selectedFile = fileChooser.showOpenDialog(temporaryStage);
+
+        if (selectedFile != null)
+            return selectedFile.getAbsolutePath();
+
         return null;
     }
-    public String ChooseDirectory() {
+    private String ChooseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Choose Destination Folder");
         Stage temporaryStage = new Stage();
@@ -201,6 +210,11 @@ public class MyViewController implements IView , Initializable, Observer {
         if (selectedDirectory != null)
             return selectedDirectory.getPath();
         return null;
+    }
+    private void show_error(String content){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("content");
+        alert.show();
     }
 
 

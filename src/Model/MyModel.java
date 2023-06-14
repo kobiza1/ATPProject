@@ -35,6 +35,7 @@ public class MyModel extends Observable implements IModel{
     private Server mazeSolverServer;
     private boolean serversAreUp;
 
+
     public MyModel() {
         maze = null;
         rowChar =0;
@@ -42,7 +43,6 @@ public class MyModel extends Observable implements IModel{
         serversAreUp = false;
         mazeGeneratorServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         mazeSolverServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
-
     }
 
     public void startServers() {
@@ -149,11 +149,14 @@ public class MyModel extends Observable implements IModel{
 
     @Override
     public void solveMaze(int[][] maze) {
-        startServers();
-        CommunicateWithServer_SolveSearchProblem();
-        stopServers();
-        setChanged();
-        notifyObservers(3);
+        if(maze != null)
+        {
+            if(!serversAreUp)
+                startServers();
+            CommunicateWithServer_SolveSearchProblem();
+            setChanged();
+            notifyObservers(3);
+        }
     }
 
     @Override
@@ -164,10 +167,9 @@ public class MyModel extends Observable implements IModel{
 
     public void generateMaze(int row, int col)
     {
-
-        startServers();
+        if(!serversAreUp)
+            startServers();
         CommunicateWithServer_MazeGenerating(row, col);
-        stopServers();
         setChanged();
         notifyObservers(1);
     }
@@ -207,6 +209,13 @@ public class MyModel extends Observable implements IModel{
     } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void exit(){
+        if(serversAreUp){
+            stopServers();
+        }
+        exit();
     }
 
     private void CommunicateWithServer_MazeGenerating(int row, int col)  {

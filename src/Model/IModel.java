@@ -17,4 +17,5 @@ public interface IModel {
     public void save_maze(String path, String name);
     public void load_maze(String path);
     public ArrayList<AState> getSolution();
+    public void exit();
 }
