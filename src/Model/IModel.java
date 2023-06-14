@@ -1,7 +1,9 @@
 package Model;
 
+import algorithms.search.AState;
 import algorithms.search.Solution;
 
+import java.util.ArrayList;
 import java.util.Observer;
 
 public interface IModel {
@@ -12,5 +14,5 @@ public interface IModel {
     public int getColChar();
     public void assignObserver(Observer o);
     public void solveMaze(int [][] maze);
-    public Solution getSolution();
+    public ArrayList<AState> getSolution();
 }
