@@ -1,5 +1,8 @@
 package View;
 
+import Model.IModel;
+import Model.MyModel;
+import ViewModel.MyViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +18,12 @@ public class Main extends Application {
         stage.setTitle("Icy Tower Maze");
         stage.setScene(scene);
         stage.show();
+
+        IModel model = new MyModel();
+        MyViewModel viewModel = new MyViewModel(model);
+        MyViewController controller = fxmlLoader.getController();
+        controller.setViewModel(viewModel);
+        viewModel.assignObserver(controller);
     }
 
     public static void main(String[] args) {

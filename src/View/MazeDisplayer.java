@@ -33,11 +33,9 @@ public class MazeDisplayer extends Canvas {
     public int getPlayerRow() {
         return playerRow;
     }
-
     public int getPlayerCol() {
         return playerCol;
     }
-
     public void setPlayerPosition(int row, int col) {
         this.playerRow = row;
         this.playerCol = col;
@@ -47,7 +45,6 @@ public class MazeDisplayer extends Canvas {
         this.maze = maze;
         draw();
     }
-
     private void draw() {
         if(maze != null){
             double canvasHeight = getHeight();
@@ -84,10 +81,10 @@ public class MazeDisplayer extends Canvas {
                         //if it is a wall:
                         double x = j * cellWidth;
                         double y = i * cellHeight;
-                        graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-                        if(wallImage == null)
-                            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-                        else
+                        //graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+//                        if(wallImage == null)
+//                            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+//                        else
                             graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                     }
                 }

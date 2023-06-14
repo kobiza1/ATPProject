@@ -1,8 +1,10 @@
 package ViewModel;
 
 import Model.IModel;
+import algorithms.search.AState;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +15,7 @@ public class MyViewModel extends Observable implements Observer {
     private int [][] maze;
     private int rowChar;
     private int colChar;
+    private ArrayList<AState> solution;
 
     public MyViewModel(IModel model) {
         this.model = model;
@@ -28,43 +31,26 @@ public class MyViewModel extends Observable implements Observer {
     public int getColChar() {
         return colChar;
     }
-    @Override
+
     public void update(Observable o, Object arg) {
-        if(o instanceof IModel)
-        {
-            if(maze == null)//generateMaze
-            {
-                this.maze = model.getMaze();
-            }
-            else {
-                int[][] maze = model.getMaze();
+        int action_num = 0;
+        String str_num = arg.toString();
+        action_num = Integer.parseInt(str_num);
 
-                if (maze == this.maze)//Not generateMaze
-                {
-                    int rowChar = model.getRowChar();
-                    int colChar = model.getColChar();
-                    if(this.colChar == colChar && this.rowChar == rowChar)//Solve Maze
-                    {
-                        model.getSolution();
-                    }
-                    else//Update location
-                    {
-                        this.rowChar = rowChar;
-                        this.colChar = colChar;
-                    }
-
-
-                }
-                else//GenerateMaze
-                {
-                    this.maze = maze;
-                }
-            }
-
-            setChanged();
-            notifyObservers();
+        if(action_num == 1) {
+            this.maze = model.getMaze();
         }
+        else if (action_num == 2){
+            rowChar = model.getRowChar();
+            colChar = model.getColChar();
+        }
+        else if(action_num == 3)
+            solution = model.getSolution();
+
+        setChanged();
+        notifyObservers(action_num);
     }
+
     public void generateMaze(int row,int col)
     {
         this.model.generateMaze(row,col);

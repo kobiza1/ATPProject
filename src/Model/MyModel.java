@@ -1,8 +1,12 @@
 package Model;
 
+import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.search.AState;
+import algorithms.search.Solution;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,8 +21,20 @@ public class MyModel extends Observable implements IModel{
         maze = null;
         rowChar =0;
         colChar =0;
-
     }
+
+    public int getRowChar() {
+        return rowChar;
+    }
+    public int getColChar() {
+        return colChar;
+    }
+
+//    @Override
+//    public void assignObserver(Observer o) {
+//        if(o instanceof MyViewModel)
+//            this.addObserver(o);
+//    }
 
     public void updateCharacterLocation(int direction)
     {
@@ -28,56 +44,47 @@ public class MyModel extends Observable implements IModel{
             direction = 3 -> Left
             direction = 4 -> Right
          */
-
+        int[][] maze_board = maze.getMaze_board();
         switch(direction)
         {
             case 1: //Up
-                //if(rowChar!=0)
-                rowChar--;
+                if(rowChar!=0 && maze_board[rowChar-1][colChar] == 0)
+                    rowChar--;
                 break;
 
             case 2: //Down
-                //  if(rowChar!=maze.length-1)
-                rowChar++;
+                if(rowChar!=maze_board.length - 1 && maze_board[rowChar+1][colChar] == 0)
+                    rowChar++;
                 break;
             case 3: //Left
-                //  if(colChar!=0)
-                colChar--;
+                if(colChar!=0 && maze_board[rowChar][colChar-1] == 0)
+                    colChar--;
                 break;
             case 4: //Right
-                //  if(colChar!=maze[0].length-1)
-                colChar++;
+                if(colChar!=maze.getMaze_board()[0].length-1 && maze_board[rowChar][colChar+1] == 0)
+                    colChar++;
                 break;
 
         }
 
         setChanged();
-        notifyObservers();
+        notifyObservers(2);
     }
 
-    public int getRowChar() {
-        return rowChar;
-    }
 
-    public int getColChar() {
-        return colChar;
-    }
-
-    @Override
     public void assignObserver(Observer o) {
         this.addObserver(o);
     }
 
     @Override
     public void solveMaze(int[][] maze) {
-        //Solving maze
         setChanged();
-        notifyObservers();
+        notifyObservers(3);
     }
 
     @Override
-    public void getSolution() {
-        //return this.solution;
+    public ArrayList<AState> getSolution() {
+        return null;
     }
 
 
@@ -86,11 +93,12 @@ public class MyModel extends Observable implements IModel{
         MyMazeGenerator mg = new MyMazeGenerator();
         this.maze = mg.generate(row, col);
         setChanged();
-        notifyObservers();
+        notifyObservers(1);
     }
 
     public int[][] getMaze() {
         return maze.getMaze_board();
     }
 }
+
 
