@@ -1,10 +1,9 @@
 package ViewModel;
 
 import Model.IModel;
-import algorithms.search.AState;
+import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,29 +14,36 @@ public class MyViewModel extends Observable implements Observer {
     private int [][] maze;
     private int rowChar;
     private int colChar;
-    private ArrayList<AState> solution;
+
 
     public MyViewModel(IModel model) {
         this.model = model;
         this.model.assignObserver(this);
         this.maze = null;
     }
+
+
     public int[][] getMaze() {
         return maze;
     }
+
+
     public int getRowChar() {
         return rowChar;
     }
+
     public int getColChar() {
         return colChar;
     }
 
+    @Override
     public void update(Observable o, Object arg) {
         int action_num = 0;
         String str_num = arg.toString();
         action_num = Integer.parseInt(str_num);
 
-        if(action_num == 1) {
+        if(action_num == 1)//generateMaze
+        {
             this.maze = model.getMaze();
         }
         else if (action_num == 2){
@@ -45,15 +51,14 @@ public class MyViewModel extends Observable implements Observer {
             colChar = model.getColChar();
         }
         else if(action_num == 3)
-            solution = model.getSolution();
-
+            model.getSolution();
         setChanged();
         notifyObservers(action_num);
     }
 
     public void generateMaze(int row,int col)
     {
-        this.model.generateMaze(row,col);
+        model.generateMaze(row,col);
     }
 
     public void moveCharacter(KeyEvent keyEvent)
@@ -83,9 +88,9 @@ public class MyViewModel extends Observable implements Observer {
         model.solveMaze(maze);
     }
 
-    public void getSolution()
+    public Solution getSolution()
     {
-        model.getSolution();
+        return model.getSolution();
     }
     public void assignObserver(Observer o) {
         this.addObserver(o);
