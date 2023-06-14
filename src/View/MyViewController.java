@@ -111,10 +111,6 @@ public class MyViewController implements IView , Initializable, Observer {
         viewModel.solveMaze();
     }
 
-    private void mazeSolved() {
-        mazeDisplayer.setSolution(viewModel.getSolution());
-    }
-
     public void keyPressed(KeyEvent keyEvent) {
         viewModel.moveCharacter(keyEvent);
         keyEvent.consume();

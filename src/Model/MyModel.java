@@ -160,8 +160,8 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public Solution getSolution() {
-        return solution;
+    public ArrayList<AState> getSolution() {
+        return solution.getSolutionPath();
     }
 
 
