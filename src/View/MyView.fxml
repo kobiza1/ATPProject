@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import View.MazeDisplayer?>
+<!--<?import View.MazeDisplayer?>-->
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#mouseClicked" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(Images/background2.jpg); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
@@ -32,14 +32,9 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#propertiesGame" text="Button" />
+              <MenuItem mnemonicParsing="false" onAction="#propertiesGame" text="Properties" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="                                                                                                      ">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
           <Menu fx:id="helpButton" mnemonicParsing="false" onAction="#helpGame">
                <graphic>
                   <Button mnemonicParsing="false" onAction="#helpGame" text="Help" />
@@ -60,8 +55,8 @@
          <children>
             <GridPane prefHeight="260.0" prefWidth="166.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.0" minWidth="10.0" prefWidth="115.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="66.0" minWidth="10.0" prefWidth="62.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="130.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="66.0" minWidth="10.0" prefWidth="47.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -107,7 +102,10 @@
                      <font>
                         <Font name="Copperplate" size="13.0" />
                      </font></Label>
-                  <Label fx:id="playerCol" text="Label" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label fx:id="playerCol" text="Label" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Copperplate" size="13.0" />
+                     </font></Label>
                </children>
             </GridPane>
             <ImageView fx:id="icon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -123,9 +121,9 @@
           <BorderPane.margin>
               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
           </BorderPane.margin>
-           <children>
-               <MazeDisplayer fx:id="mazeDisplayer" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" height="500.0" width="500.0" onKeyPressed="#keyPressed" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" />
-           </children>
+<!--           <children>-->
+<!--               <MazeDisplayer fx:id="mazeDisplayer" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" height="500.0" width="500.0" onKeyPressed="#keyPressed" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" />-->
+<!--           </children>-->
           <padding>
               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
           </padding>
