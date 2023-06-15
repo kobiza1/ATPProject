@@ -55,7 +55,7 @@ public class MyViewController implements IView , Initializable, Observer {
     public static MediaPlayer mediaPlayer;
     private static MediaPlayer player;
     Media mazeSong = new Media(getClass().getResource("../music/mainWindow.mp3").toExternalForm());
-   // Media winSong = new Media(getClass().getResource("../music/goal.mp3").toExternalForm());
+    // Media winSong = new Media(getClass().getResource("../music/goal.mp3").toExternalForm());
     public MyViewController(){
         MyModel model = new MyModel();
         viewModel = new MyViewModel(model);
@@ -67,7 +67,7 @@ public class MyViewController implements IView , Initializable, Observer {
         playerRow.textProperty().bind(updatePlayerRow);
         playerCol.textProperty().bind(updatePlayerCol);
         setMusic(mazeSong);
-       // playMusic();
+        // playMusic();
     }
     public void setMusic(Media song){
         /*set the mediaPlayer with the media, and call playMusic*/
@@ -182,8 +182,8 @@ public class MyViewController implements IView , Initializable, Observer {
         generateMaze(actionEvent);
     }
     public void saveGame(ActionEvent actionEvent){
-       String path = ChooseDirectory();
-       viewModel.saveMaze(path, "generic_name.ser");
+        String path = ChooseDirectory();
+        viewModel.saveMaze(path, "generic_name.ser");
     }
     public void loadGame(ActionEvent actionEvent){
         String path = openFileManager();
@@ -225,7 +225,7 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void exitGame(){
-            viewModel.exit_game();
+        viewModel.exit_game();
     }
     private String openFileManager() {
         FileChooser fileChooser = new FileChooser();
@@ -271,11 +271,11 @@ public class MyViewController implements IView , Initializable, Observer {
             newScale.setPivotY(mouseLocal.getY());
             double translateY=0.0, translateX=0.0;
             if(zoom_fac > 0){
-            translateX = mazeDisplayer.getTranslateX() - (mouseLocal.getX() * (zoom_fac - 1));
-            translateY = mazeDisplayer.getTranslateY() - (mouseLocal.getY() * (zoom_fac - 1));}
+                translateX = mazeDisplayer.getTranslateX() - (mouseLocal.getX() * (zoom_fac - 1));
+                translateY = mazeDisplayer.getTranslateY() - (mouseLocal.getY() * (zoom_fac - 1));}
             if(zoom_fac < 0){
-                 translateX = mazeDisplayer.getTranslateX() - (mouseLocal.getX() * (zoom_fac));
-                 translateY = mazeDisplayer.getTranslateY() - (mouseLocal.getY() * (zoom_fac));}
+                translateX = mazeDisplayer.getTranslateX() - (mouseLocal.getX() * (zoom_fac));
+                translateY = mazeDisplayer.getTranslateY() - (mouseLocal.getY() * (zoom_fac));}
             mazeDisplayer.getTransforms().addAll(newScale);
             mazeDisplayer.setTranslateX(translateX);
             mazeDisplayer.setTranslateY(translateY);

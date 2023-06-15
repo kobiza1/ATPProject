@@ -56,7 +56,7 @@ public class MazeDisplayer extends Canvas {
     public void drawMaze(int[][] maze) {
         this.maze = maze;
         setPlayerPosition(0, 0);
-        solution = null;
+        solution =null;
     }
     private void draw() {
         if(maze != null){
@@ -76,9 +76,6 @@ public class MazeDisplayer extends Canvas {
             drawPlayer(graphicsContext, cellHeight, cellWidth);
             if(solution != null){
                 drawSolution(graphicsContext, cellHeight, cellWidth);
-            }
-            else{
-
             }
         }
     }
@@ -133,7 +130,7 @@ public class MazeDisplayer extends Canvas {
         for(int i=0; i<solution.size(); i+=2){
             x = solution.get(i+1)*cell_width;
             y = solution.get(i)*cell_height;
-            if(solution.get(i+1) == this.playerCol && solution.get(i) == this.playerRow){
+            if(playerCol == solution.get(i+1) && playerRow == solution.get(i)){
                 continue;
             }
             graphicsContext.drawImage(SolutionImage, x, y, cell_width, cell_height);

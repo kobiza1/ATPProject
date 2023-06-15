@@ -9,10 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+
 import java.io.File;
 import java.io.IOException;
-import javafx.event.EventHandler;
+
 public class Main extends Application {
 
     @Override
@@ -28,11 +28,6 @@ public class Main extends Application {
         MyViewController controller = fxmlLoader.getController();
         controller.setViewModel(viewModel);
         viewModel.assignObserver(controller);
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                controller.exitGame();
-            }
-        });
     }
 
     public static void main(String[] args) {

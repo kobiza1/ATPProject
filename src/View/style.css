@@ -1,0 +1,7 @@
+Button {
+    -fx-text-fill: white;
+    -fx-font-family: "Copperplate";
+    -fx-font-weight: bold;
+    -fx-background-image: url(button1.png);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
