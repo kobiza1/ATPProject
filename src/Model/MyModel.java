@@ -171,6 +171,8 @@ public class MyModel extends Observable implements IModel{
         if(!serversAreUp)
             startServers();
         CommunicateWithServer_MazeGenerating(row, col);
+        rowChar = 0;
+        colChar = 0;
         setChanged();
         notifyObservers(1);
     }

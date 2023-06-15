@@ -60,6 +60,8 @@ public class MyViewModel extends Observable implements Observer {
 
         if(action_num == 1) {
             this.maze = model.getMaze();
+            rowChar = 0;
+            colChar = 0;
         }
         else if (action_num == 2){
             rowChar = model.getRowChar();

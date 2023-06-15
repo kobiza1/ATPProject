@@ -2,7 +2,8 @@ package View;
 
 import Model.MyModel;
 import ViewModel.MyViewModel;
-import javafx.application.Platform;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -12,41 +13,28 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.application.Application;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.DirectoryChooser;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import javafx.util.Duration;
 
-import static javafx.scene.input.KeyCode.NUMPAD8;
 
 public class MyViewController implements IView , Initializable, Observer {
     @FXML
@@ -63,14 +51,31 @@ public class MyViewController implements IView , Initializable, Observer {
     public MyViewModel viewModel;
     @FXML
     public MazeDisplayer mazeDisplayer;
-
-
+    public static Media media;
+    public static MediaPlayer mediaPlayer;
+    private static MediaPlayer player;
+    Media mazeSong = new Media(getClass().getResource("../music/mainWindow.mp3").toExternalForm());
+   // Media winSong = new Media(getClass().getResource("../music/goal.mp3").toExternalForm());
     public MyViewController(){
         MyModel model = new MyModel();
         viewModel = new MyViewModel(model);
         mazeDisplayer = new MazeDisplayer();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        playerRow.textProperty().bind(updatePlayerRow);
+        playerCol.textProperty().bind(updatePlayerCol);
+        setMusic(mazeSong);
+       // playMusic();
+    }
+    public void setMusic(Media song){
+        /*set the mediaPlayer with the media, and call playMusic*/
+        if(player!=null)
+            player.pause();
+        player = new MediaPlayer(song);
+        playMusic();
+    }
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
     }
@@ -88,12 +93,6 @@ public class MyViewController implements IView , Initializable, Observer {
 
     public void setUpdatePlayerCol(String updatePlayerCol) {
         this.updatePlayerCol.set(updatePlayerCol);
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        playerRow.textProperty().bind(updatePlayerRow);
-        playerCol.textProperty().bind(updatePlayerCol);
     }
 
     public void generateMaze(ActionEvent actionEvent) {
@@ -256,10 +255,8 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
 
-
-
     public void setOnScroll(ScrollEvent scrollEvent) {
-       if (scrollEvent.isControlDown()) {
+        if (scrollEvent.isControlDown()) {
             double zoom_fac = 1.05;
             if (scrollEvent.getDeltaY() < 0) {
                 zoom_fac = -0.05;
@@ -283,13 +280,8 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.setTranslateX(translateX);
             mazeDisplayer.setTranslateY(translateY);
         }
-
     }
 
-
-    public void exit(){
-        System.exit(0);
-    }
     public void mouseDragged(MouseEvent mouseEvent) {
         if(viewModel.getMaze() != null) {
             int maximumSize = Math.max(viewModel.getMaze()[0].length, viewModel.getMaze().length);
@@ -327,5 +319,16 @@ public class MyViewController implements IView , Initializable, Observer {
         double start = (canvasSize / 2 - (cellSize * mazeSize / 2)) / cellSize;
         double mouse = (int) ((mouseEvent) / (temp) - start);
         return mouse;
+    }
+
+    public void playMusic(){
+        /*set the properties of the mediaPlayer*/
+        player.setAutoPlay(true);
+        player.setVolume(0.4);
+        player.setOnEndOfMedia(new Runnable() { //repeat the music
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
     }
 }

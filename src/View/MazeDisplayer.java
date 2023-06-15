@@ -77,6 +77,9 @@ public class MazeDisplayer extends Canvas {
             if(solution != null){
                 drawSolution(graphicsContext, cellHeight, cellWidth);
             }
+            else{
+
+            }
         }
     }
 
@@ -130,11 +133,10 @@ public class MazeDisplayer extends Canvas {
         for(int i=0; i<solution.size(); i+=2){
             x = solution.get(i+1)*cell_width;
             y = solution.get(i)*cell_height;
-            if(playerCol == solution.get(i+1) && playerRow == solution.get(i)){
+            if(solution.get(i+1) == this.playerCol && solution.get(i) == this.playerRow){
                 continue;
             }
             graphicsContext.drawImage(SolutionImage, x, y, cell_width, cell_height);
-
         }
     }
 
