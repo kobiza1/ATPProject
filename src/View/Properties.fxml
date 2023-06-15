@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="782.0" style="-fx-background-image: url(Images/otherBackground.png);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="View.PropertiesController"
+            prefHeight="600.0" prefWidth="782.0"
+            style="-fx-background-image: url(Images/otherBackground.png);">
     <children>
         <Text fill="#7c2525" layoutX="289.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="functions">
             <font>
@@ -60,55 +68,55 @@
                 <Image url="@numPad.png" />
             </image>
         </ImageView>
-      <Text layoutX="317.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties -&gt; show Application settings">
-         <font>
-            <Font name="Copperplate" size="12.0" />
-         </font>
-      </Text>
-      <Text layoutX="302.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit -&gt; exit the pogram">
-         <font>
-            <Font name="Copperplate" size="12.0" />
-         </font>
-      </Text>
-      <Text layoutX="302.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="About-&gt; show Application Details">
-         <font>
-            <Font name="Copperplate" size="12.0" />
-         </font>
-      </Text>
-      <Text layoutX="301.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help -&gt; game information ">
-         <font>
-            <Font name="Copperplate" size="12.0" />
-         </font>
-      </Text>
-      <Text fill="#7c2525" layoutX="289.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GOAL">
-         <font>
-            <Font name="Copperplate" size="20.0" />
-         </font>
-      </Text>
-      <Text layoutX="300.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO WIN THIS GAME YOU NEED ">
-         <font>
-            <Font name="Copperplate" size="12.0" />
-         </font>
-      </Text>
-      <Text layoutX="300.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO REACH THE END OF THE MAZE ">
-         <font>
-            <Font name="Copperplate" size="12.0" />
-         </font>
-      </Text>
+        <Text layoutX="317.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties -&gt; show Application settings">
+            <font>
+                <Font name="Copperplate" size="12.0" />
+            </font>
+        </Text>
+        <Text layoutX="302.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit -&gt; exit the pogram">
+            <font>
+                <Font name="Copperplate" size="12.0" />
+            </font>
+        </Text>
+        <Text layoutX="302.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="About-&gt; show Application Details">
+            <font>
+                <Font name="Copperplate" size="12.0" />
+            </font>
+        </Text>
+        <Text layoutX="301.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help -&gt; game information ">
+            <font>
+                <Font name="Copperplate" size="12.0" />
+            </font>
+        </Text>
+        <Text fill="#7c2525" layoutX="289.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GOAL">
+            <font>
+                <Font name="Copperplate" size="20.0" />
+            </font>
+        </Text>
+        <Text layoutX="300.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO WIN THIS GAME YOU NEED ">
+            <font>
+                <Font name="Copperplate" size="12.0" />
+            </font>
+        </Text>
+        <Text layoutX="300.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO REACH THE END OF THE MAZE ">
+            <font>
+                <Font name="Copperplate" size="12.0" />
+            </font>
+        </Text>
         <ImageView fitHeight="150.0" fitWidth="200.0" focusTraversable="true" layoutX="325.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@Icon.png" />
             </image>
         </ImageView>
-      <ImageView fitHeight="90.0" fitWidth="83.0" layoutX="207.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@win.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="65.0" fitWidth="63.0" layoutX="218.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@setting-icon.png" />
-         </image>
-      </ImageView>
+        <ImageView fitHeight="90.0" fitWidth="83.0" layoutX="207.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@win.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="65.0" fitWidth="63.0" layoutX="218.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@setting-icon.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>

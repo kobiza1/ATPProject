@@ -1,12 +1,16 @@
 package View;
 
 import javafx.event.ActionEvent;
-import javafx.scene.image.Image;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
-import java.io.File;
+//import static View.MyViewController.restart;
 
 public class WinWindowController {
     public void playAgain(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        stage.close();
+//        restart();
     }
 
 }

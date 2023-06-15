@@ -35,6 +35,10 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.util.Duration;
 
+import static View.Main.restartApplication;
+
+//import static View.Main.restartApplication;
+
 
 public class MyViewController implements IView , Initializable, Observer {
     @FXML
@@ -51,11 +55,10 @@ public class MyViewController implements IView , Initializable, Observer {
     public MyViewModel viewModel;
     @FXML
     public MazeDisplayer mazeDisplayer;
-    public static Media media;
-    public static MediaPlayer mediaPlayer;
     private static MediaPlayer player;
-    Media mazeSong = new Media(getClass().getResource("../music/mainWindow.mp3").toExternalForm());
-    // Media winSong = new Media(getClass().getResource("../music/goal.mp3").toExternalForm());
+    public Media mazeSong = new Media(getClass().getResource("../music/mainWindow.mp3").toExternalForm());
+    public Media winSong = new Media(getClass().getResource("../music/winWindow.mp3").toExternalForm());
+
     public MyViewController(){
         MyModel model = new MyModel();
         viewModel = new MyViewModel(model);
@@ -67,8 +70,8 @@ public class MyViewController implements IView , Initializable, Observer {
         playerRow.textProperty().bind(updatePlayerRow);
         playerCol.textProperty().bind(updatePlayerCol);
         setMusic(mazeSong);
-        // playMusic();
     }
+
     public void setMusic(Media song){
         /*set the mediaPlayer with the media, and call playMusic*/
         if(player!=null)
@@ -76,9 +79,22 @@ public class MyViewController implements IView , Initializable, Observer {
         player = new MediaPlayer(song);
         playMusic();
     }
+
+    public static void playMusic(){
+        /*set the properties of the mediaPlayer*/
+        player.setAutoPlay(true);
+        player.setVolume(0.2);
+        player.setOnEndOfMedia(new Runnable() { //repeat the music
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
+    }
+
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
     }
+
     public String getUpdatePlayerRow() {
         return updatePlayerRow.get();
     }
@@ -164,6 +180,9 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void openWinWindow(){
+
+        setMusic(winSong);
+
         try {
             Stage newWindow = new Stage();
             FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("WinWindow.fxml"));
@@ -181,10 +200,12 @@ public class MyViewController implements IView , Initializable, Observer {
     public void newGame(ActionEvent actionEvent){
         generateMaze(actionEvent);
     }
+
     public void saveGame(ActionEvent actionEvent){
         String path = ChooseDirectory();
         viewModel.saveMaze(path, "generic_name.ser");
     }
+
     public void loadGame(ActionEvent actionEvent){
         String path = openFileManager();
         boolean loaded = viewModel.loadMaze(path);
@@ -192,9 +213,22 @@ public class MyViewController implements IView , Initializable, Observer {
             show_error("Wrong type of file. Please try again");
         }
     }
-    public void propertiesGame(ActionEvent actionEvent){
 
+    public void propertiesGame(ActionEvent actionEvent){
+        try {
+            Stage newWindow = new Stage();
+            FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
+            Parent root = newWindowLoader.load();
+            Scene newWindowScene = new Scene(root);
+            newWindow.setTitle("Properties");
+            newWindow.setScene(newWindowScene);
+            newWindow.initModality(Modality.NONE);
+            newWindow.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
+
     public void aboutGame(ActionEvent actionEvent) {
         try {
             Stage newWindow = new Stage();
@@ -209,6 +243,7 @@ public class MyViewController implements IView , Initializable, Observer {
             e.printStackTrace();
         }
     }
+
     public void helpGame(ActionEvent actionEvent){
         try {
             Stage newWindow = new Stage();
@@ -227,6 +262,7 @@ public class MyViewController implements IView , Initializable, Observer {
     public void exitGame(){
         viewModel.exit_game();
     }
+
     private String openFileManager() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select File");
@@ -239,6 +275,7 @@ public class MyViewController implements IView , Initializable, Observer {
 
         return null;
     }
+
     private String ChooseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Choose Destination Folder");
@@ -248,12 +285,12 @@ public class MyViewController implements IView , Initializable, Observer {
             return selectedDirectory.getPath();
         return null;
     }
+
     private void show_error(String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("content");
         alert.show();
     }
-
 
     public void setOnScroll(ScrollEvent scrollEvent) {
         if (scrollEvent.isControlDown()) {
@@ -314,21 +351,11 @@ public class MyViewController implements IView , Initializable, Observer {
 
         }
     }
+
     private  double helperMouseDragged(int maxsize, double canvasSize, int mazeSize,double mouseEvent,double temp){
         double cellSize=canvasSize/maxsize;
         double start = (canvasSize / 2 - (cellSize * mazeSize / 2)) / cellSize;
         double mouse = (int) ((mouseEvent) / (temp) - start);
         return mouse;
-    }
-
-    public void playMusic(){
-        /*set the properties of the mediaPlayer*/
-        player.setAutoPlay(true);
-        player.setVolume(0.4);
-        player.setOnEndOfMedia(new Runnable() { //repeat the music
-            public void run() {
-                player.seek(Duration.ZERO);
-            }
-        });
     }
 }
