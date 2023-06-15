@@ -1,15 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox prefHeight="299.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="782.0"
+            style="-fx-background-image: url(Images/otherBackground.png);"
+            xmlns="http://javafx.com/javafx/20.0.1" >
    <children>
-      <Label prefHeight="37.0" prefWidth="222.0" text="Algoritem to build  maze: Prim algorithm " />
-      <TextField prefHeight="90.0" prefWidth="452.0" text="Prim's algorithm (also known as Jarník's algorithm) is a greedy algorithm that finds a minimum spanning tree for a weighted undirected graph. This means it finds a subset of the edges that forms a tree that includes every vertex, where the total weight of all the edges in the tree is minimized. The algorithm operates by building this tree one vertex at a time, from an arbitrary starting vertex, at each step adding the cheapest possible connection from the tree to another vertex." />
-      <Label prefHeight="113.0" prefWidth="454.0" text="Algoritem to solved maze:" />
-      <TextField prefHeight="108.0" prefWidth="452.0" text="Best-first search is a class of search algorithms, which explores a graph by expanding the most promising node chosen according to a specified rule." />
-      <Label prefHeight="60.0" prefWidth="453.0" text="Credits: Maze game Icy Tower by Noa Argamani and Kobi Zaguri " />
+      <Text fill="#7c2525" layoutX="235.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prim algorithm">
+         <font>
+            <Font name="Copperplate" size="20.0" />
+         </font></Text>
+      <Text layoutX="236.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best-first search is a class of search algorithms, ">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font></Text>
+      <Text layoutX="214.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Algoritem to build maze:  ">
+         <font>
+            <Font name="Copperplate" size="28.0" />
+         </font>
+      </Text>
+      <Text layoutX="212.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Algoritem to solved maze:" wrappingWidth="478.69921875">
+         <font>
+            <Font name="Copperplate" size="28.0" />
+         </font>
+      </Text>
+      <Text layoutX="214.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits: ">
+         <font>
+            <Font name="Copperplate" size="28.0" />
+         </font></Text>
+      <Text fill="#7c2525" layoutX="236.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maze game Icy Tower ">
+         <font>
+            <Font name="Copperplate" size="20.0" />
+         </font></Text>
+      <Text fill="#7c2525" layoutX="235.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Noa Argamani and Kobi Zaguri ">
+         <font>
+            <Font name="Copperplate" size="20.0" />
+         </font>
+      </Text>
+      <Text fill="#7c2525" layoutX="236.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bestfirst search algorithm">
+         <font>
+            <Font name="Copperplate" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="236.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="which explores a graph by expanding the most promising">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font></Text>
+      <Text layoutX="235.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="node chosen according to a specified rule.">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="235.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prim's algorithm is a greedy algorithm that finds ">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="235.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="a minimum spanning tree for a weighted undirected graph. ">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="235.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This means it finds a subset of the edges that forms a tree  ">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="235.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="that includes every vertex, where the total weight of all ">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="235.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="the edges inthe tree is minimized.">
+         <font>
+            <Font name="Copperplate" size="12.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="150.0" fitWidth="200.0" focusTraversable="true" layoutX="325.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icon.png" />
+         </image>
+      </ImageView>
    </children>
-</VBox>
+</AnchorPane>
