@@ -4,9 +4,11 @@ import Model.IModel;
 import Model.MyModel;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -25,6 +27,12 @@ public class Main extends Application {
         MyViewController controller = fxmlLoader.getController();
         controller.setViewModel(viewModel);
         viewModel.assignObserver(controller);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                controller.exitGame();
+            }
+        });
     }
 
     public static void main(String[] args) {

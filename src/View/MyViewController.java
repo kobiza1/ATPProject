@@ -2,6 +2,7 @@ package View;
 
 import Model.MyModel;
 import ViewModel.MyViewModel;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -105,6 +106,7 @@ public class MyViewController implements IView , Initializable, Observer {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Don't mess with me, Insert only numbers.");
             alert.show();
+            return;
         }
 
         if( nRow<0 || nCol<0 ){
@@ -223,7 +225,7 @@ public class MyViewController implements IView , Initializable, Observer {
         }
     }
 
-    public void exitGame(ActionEvent actionEvent){
+    public void exitGame(){
             viewModel.exit_game();
     }
     private String openFileManager() {
@@ -254,8 +256,10 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
 
+
+
     public void setOnScroll(ScrollEvent scrollEvent) {
-        if (scrollEvent.isControlDown()) {
+       if (scrollEvent.isControlDown()) {
             double zoom_fac = 1.05;
             if (scrollEvent.getDeltaY() < 0) {
                 zoom_fac = -0.05;
@@ -279,8 +283,13 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.setTranslateX(translateX);
             mazeDisplayer.setTranslateY(translateY);
         }
+
     }
 
+
+    public void exit(){
+        System.exit(0);
+    }
     public void mouseDragged(MouseEvent mouseEvent) {
         if(viewModel.getMaze() != null) {
             int maximumSize = Math.max(viewModel.getMaze()[0].length, viewModel.getMaze().length);
