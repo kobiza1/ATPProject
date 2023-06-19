@@ -2,6 +2,7 @@ package View;
 
 import Model.MyModel;
 import ViewModel.MyViewModel;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.util.Duration;
 
@@ -174,6 +176,9 @@ public class MyViewController implements IView , Initializable, Observer {
         }
         else if (action_num == 5){
             mazeDisplayer.drawMaze(viewModel.getMaze());
+        }
+        else if (action_num == 11){
+            show_error("Wrong type of file");
         } else if (action_num == 10) {
             openWinWindow();
         }
@@ -202,16 +207,34 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void saveGame(ActionEvent actionEvent){
+        if(mazeDisplayer.get_maze() == null){
+            show_error("You need to start playing first");
+            return;
+        }
         String path = ChooseDirectory();
-        viewModel.saveMaze(path, "generic_name.ser");
+        String name = "";
+        if(path != null){
+           name = get_name_from_the_user();
+        }
+        viewModel.saveMaze(path, name);
+    }
+
+    private String get_name_from_the_user() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Enter File Name");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Please enter a file name:");
+        String fileName = "";
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+             fileName = result.get();
+        }
+        return fileName;
     }
 
     public void loadGame(ActionEvent actionEvent){
         String path = openFileManager();
-        boolean loaded = viewModel.loadMaze(path);
-        if(!loaded){
-            show_error("Wrong type of file. Please try again");
-        }
+        viewModel.loadMaze(path);
     }
 
     public void propertiesGame(ActionEvent actionEvent){
@@ -279,16 +302,19 @@ public class MyViewController implements IView , Initializable, Observer {
     private String ChooseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Choose Destination Folder");
-        Stage temporaryStage = new Stage();
-        File selectedDirectory = directoryChooser.showDialog(temporaryStage);
-        if (selectedDirectory != null)
-            return selectedDirectory.getPath();
+        Stage temp_stage = new Stage();
+        File selectedDirectory = directoryChooser.showDialog(temp_stage);
+
+        if (selectedDirectory != null) {
+            return selectedDirectory.getAbsolutePath() + File.separator;
+        }
         return null;
     }
 
+
     private void show_error(String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("content");
+        alert.setContentText(content);
         alert.show();
     }
 
@@ -316,7 +342,7 @@ public class MyViewController implements IView , Initializable, Observer {
             mazeDisplayer.getTransforms().addAll(newScale);
             mazeDisplayer.setTranslateX(translateX);
             mazeDisplayer.setTranslateY(translateY);
-        }
+       }
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {

@@ -28,6 +28,9 @@ public class Main extends Application {
         MyViewController controller = fxmlLoader.getController();
         controller.setViewModel(viewModel);
         viewModel.assignObserver(controller);
+        stage.setOnCloseRequest(event -> {
+            viewModel.exit_game();
+        });
     }
 
     public static void restartApplication() {

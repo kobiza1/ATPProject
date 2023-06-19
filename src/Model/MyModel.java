@@ -208,7 +208,8 @@ public class MyModel extends Observable implements IModel{
             notifyObservers(5);
         }
     } catch (IOException e) {
-        throw new RuntimeException(e);
+            setChanged();
+            notifyObservers(11);
     } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

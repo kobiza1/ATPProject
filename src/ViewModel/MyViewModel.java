@@ -71,10 +71,7 @@ public class MyViewModel extends Observable implements Observer {
              solution = get_ints_from_Astates(model.getSolution());
         else if (action_num == 5) {
             maze = model.getMaze();
-        } else if (action_num == 10) {
-
         }
-
         setChanged();
         notifyObservers(action_num);
     }
@@ -139,15 +136,13 @@ public class MyViewModel extends Observable implements Observer {
         if(path != null)
             model.save_maze(path, name);
     }
-    public boolean loadMaze(String path) {
+    public void loadMaze(String path) {
          if(path != null){
             String extension = getFileExtension(path);
-            if(!extension.equals(".ser"))
-                return false;
+            /*if(!extension.equals(".ser"))
+                return false;*/
             model.load_maze(path);
-            return true;
          }
-         return false;
     }
 
     public ArrayList<Integer> getSolution()

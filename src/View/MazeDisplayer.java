@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class MazeDisplayer extends Canvas {
-    private int[][] maze;
+    private int[][] maze = null;
     private int playerRow = 0;
     private int playerCol = 0;
     private ArrayList<Integer> solution = null;
@@ -22,6 +22,9 @@ public class MazeDisplayer extends Canvas {
 
     public void setImageFileNameSolution(String imageFileNameSolution) {
         this.imageFileNameSolution.set(imageFileNameSolution);
+    }
+    public int[][] get_maze(){
+        return this.maze;
     }
 
     StringProperty imageFileNameSolution = new SimpleStringProperty();
@@ -65,8 +68,8 @@ public class MazeDisplayer extends Canvas {
             int rows = maze.length;
             int cols = maze[0].length;
 
-            double cellHeight = canvasHeight / rows;
-            double cellWidth = canvasWidth / cols;
+            double cellHeight = canvasHeight / (rows);
+            double cellWidth = canvasWidth / (cols);
 
             GraphicsContext graphicsContext = getGraphicsContext2D();
             //clear the canvas:
