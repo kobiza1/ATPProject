@@ -1,18 +1,23 @@
 package View;
 
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.media.Media;
 import javafx.stage.Stage;
 
-import static View.MyViewController.setMusic;
-
 public class WinWindowController{
+    StringProperty imageFileNameWin = new SimpleStringProperty();
     public void playAgain(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         stage.close();
-        Media mazeSong = new Media(getClass().getResource("../music/mainWindow.mp3").toExternalForm());
-        setMusic(mazeSong);
+    }
+
+    public String getImageFileNameWin() {
+        return imageFileNameWin.get();
+    }
+
+    public void setImageFileNameWin(String imageFileNameWin) {
+        this.imageFileNameWin.set(imageFileNameWin);
     }
 }

@@ -51,7 +51,7 @@ public class MyViewController implements IView , Initializable, Observer {
     StringProperty updatePlayerCol = new SimpleStringProperty();
     public MyViewModel viewModel;
     @FXML
-    public MazeDisplayer mazeDisplayer;
+    public View mazeDisplayer;
     private static MediaPlayer player;
     public Media mazeSong = new Media(getClass().getResource("../music/mainWindow.mp3").toExternalForm());
     public Media winSong = new Media(getClass().getResource("../music/winWindow.mp3").toExternalForm());
@@ -59,7 +59,7 @@ public class MyViewController implements IView , Initializable, Observer {
     public MyViewController(){
         MyModel model = new MyModel();
         viewModel = new MyViewModel(model);
-        mazeDisplayer = new MazeDisplayer();
+        mazeDisplayer = new View();
     }
 
     @Override
@@ -132,6 +132,7 @@ public class MyViewController implements IView , Initializable, Observer {
             setUpdatePlayerCol("" + mazeDisplayer.getPlayerCol());
         }
     }
+
     public void generateMaze(ActionEvent actionEvent) {
         generate();
     }
@@ -314,7 +315,6 @@ public class MyViewController implements IView , Initializable, Observer {
         }
         return null;
     }
-
 
     private void show_error(String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

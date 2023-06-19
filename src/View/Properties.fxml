@@ -42,9 +42,9 @@
             </image>
         </ImageView>
       <ComboBox fx:id="searching" layoutX="300.0" layoutY="254.0" prefHeight="26.0" prefWidth="160.0" />
-      <TextField layoutX="300.0" layoutY="149.0" />
+      <TextField fx:id="thread" layoutX="300.0" layoutY="149.0" />
       <ComboBox fx:id="generator" layoutX="300.0" layoutY="201.0" prefHeight="26.0" prefWidth="160.0" />
-      <Button layoutX="352.0" layoutY="316.0" mnemonicParsing="false" text="Submit" onAction="#Submit">
+      <Button layoutX="352.0" layoutY="316.0" mnemonicParsing="false" onAction="#Submit" prefHeight="37.0" prefWidth="63.0" stylesheets="@style.css" text="Submit">
          <font>
             <Font name="Copperplate" size="13.0" />
          </font>

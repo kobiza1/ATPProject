@@ -1,151 +1,167 @@
 package View;
 
-import ViewModel.MyViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
-import java.net.URL;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
+public class View extends Canvas {
+    private int[][] maze = null;
+    private int playerRow = 0;
+    private int playerCol = 0;
+    private ArrayList<Integer> solution = null;
+    // wall and player images:
+    StringProperty imageFileNameWall = new SimpleStringProperty();
+    StringProperty imageFileNamePlayer = new SimpleStringProperty();
+    StringProperty imageFileNameSolution = new SimpleStringProperty();
+    StringProperty imageFileNameFriend = new SimpleStringProperty();
 
-public class View implements Initializable,Observer {
-    private MyViewModel viewModel;
-    @FXML
-    public TextField textField_mazeRows;
-    @FXML
-    public TextField textField_mazeColumns;
-    @FXML
-    public MyViewController mazeDisplayer = new MyViewController();
-    @FXML
-    public Label lbl_player_row;
-    @FXML
-    public Label lbl_player_column;
-    StringProperty update_player_position_row = new SimpleStringProperty();
-    StringProperty update_player_position_col = new SimpleStringProperty();
-    private int [][]  maze = null;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        lbl_player_row.textProperty().bind(update_player_position_row);
-        lbl_player_column.textProperty().bind(update_player_position_col);
+    public int[][] get_maze(){
+        return this.maze;
     }
 
-    public void setViewModel(MyViewModel viewModel) {
-        this.viewModel = viewModel;
-        this.viewModel.assignObserver(this);
+    public String getImageFileNameWall() {
+        return imageFileNameWall.get();
+    }
+    public void setImageFileNameWall(String imageFileNameWall) {
+        this.imageFileNameWall.set(imageFileNameWall);
+    }
+    public String getImageFileNamePlayer() {
+        return imageFileNamePlayer.get();
+    }
+    public void setImageFileNamePlayer(String imageFileNamePlayer) {
+        this.imageFileNamePlayer.set(imageFileNamePlayer);
+    }
+    public String getImageFileNameSolution() {
+        return imageFileNameSolution.get();
+    }
+    public void setImageFileNameSolution(String imageFileNameSolution) {
+        this.imageFileNameSolution.set(imageFileNameSolution);
+    }
+    public String getImageFileNameFriend() {
+        return imageFileNameFriend.get();
+    }
+    public void setImageFileNameFriend(String imageFileNameFriend) {
+        this.imageFileNameFriend.set(imageFileNameFriend);
     }
 
-
-    public String get_update_player_position_row() {
-        return update_player_position_row.get();
+    public int getPlayerRow() {
+        return playerRow;
+    }
+    public int getPlayerCol() {
+        return playerCol;
+    }
+    public void setPlayerPosition(int row, int col) {
+        this.playerRow = row;
+        this.playerCol = col;
+        draw();
     }
 
-    public void set_update_player_position_row(String update_player_position_row) {
-        this.update_player_position_row.set(update_player_position_row);
+    public void drawMaze(int[][] maze) {
+        this.maze = maze;
+        setPlayerPosition(0, 0);
+        solution =null;
     }
 
-    public String get_update_player_position_col() {
-        return update_player_position_col.get();
-    }
+    private void draw() {
+        if(maze != null){
+            double canvasHeight = getHeight();
+            double canvasWidth = getWidth();
+            int rows = maze.length;
+            int cols = maze[0].length;
 
-    public void set_update_player_position_col(String update_player_position_col) {
-        this.update_player_position_col.set(update_player_position_col);
-    }
+            double cellHeight = canvasHeight / (rows);
+            double cellWidth = canvasWidth / (cols);
 
+            GraphicsContext graphicsContext = getGraphicsContext2D();
+            //clear the canvas:
+            graphicsContext.clearRect(0, 0, canvasWidth, canvasHeight);
 
-
-//    public void generateMaze()
-//    {
-//        int rows = Integer.valueOf(textField_mazeRows.getText());
-//        int cols = Integer.valueOf(textField_mazeColumns.getText());
-//        viewModel.generateMaze(rows,cols);
-//    }
-//
-//    public void solveMaze()
-//    {
-//        viewModel.solveMaze(this.maze);
-//
-//    }
-
-
-    public void showAlert(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);;
-        alert.show();
-    }
-
-
-    public void keyPressed(KeyEvent keyEvent) {
-
-        viewModel.moveCharacter(keyEvent);
-        keyEvent.consume();
-
-    }
-
-    public void mouseClicked(MouseEvent mouseEvent) {
-        //mazeDisplayer.requestFocus();
-    }
-
-
-    @Override
-    public void update(Observable o, Object arg) {
-        /*
-        if(o instanceof MyViewModel)
-        {
-            if(maze == null)//generateMaze
-            {
-                this.maze = viewModel.getMaze();
-                drawMaze();
+            drawMazeWalls(graphicsContext, cellHeight, cellWidth, rows, cols);
+            drawPlayer(graphicsContext, cellHeight, cellWidth);
+            if(solution != null){
+                drawSolution(graphicsContext, cellHeight, cellWidth);
             }
-            else {
-                int[][] maze = viewModel.getMaze();
+            drawFriend(graphicsContext, cellHeight, cellWidth);
+        }
+    }
 
-                if (maze == this.maze)//Not generateMaze
-                {
-                    int rowChar = mazeDisplayer.getRow_player();
-                    int colChar = mazeDisplayer.getCol_player();
-                    int rowFromViewModel = viewModel.getRowChar();
-                    int colFromViewModel = viewModel.getColChar();
+    private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
+        if(maze != null){
+            Image wallImage = null;
+            try{
+                wallImage = new Image(new FileInputStream(getImageFileNameWall()));
+            } catch (FileNotFoundException e) {
+                System.out.println("There is no wall image file");
+            }
 
-                    if(rowFromViewModel == rowChar && colFromViewModel == colChar)//Solve Maze
-                    {
-                        viewModel.getSolution();
-                        showAlert("Solving Maze ... ");
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if(maze[i][j] == 1){
+                        //if it is a wall:
+                        double x = j * cellWidth;
+                        double y = i * cellHeight;
+                        graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                     }
-                    else//Update location
-                    {
-                        set_update_player_position_row(rowFromViewModel + "");
-                        set_update_player_position_col(colFromViewModel + "");
-                        this.mazeDisplayer.set_player_position(rowFromViewModel,colFromViewModel);
-                    }
-                }
-                else//GenerateMaze
-                {
-                    this.maze = maze;
-                    drawMaze();
                 }
             }
         }
-        */
     }
 
-    public void drawMaze()
-    {
-        //mazeDisplayer.drawMaze(maze);
+    private void drawPlayer(GraphicsContext graphicsContext, double cellHeight, double cellWidth) {
+        double x = getPlayerCol() * cellWidth;
+        double y = getPlayerRow() * cellHeight;
+        graphicsContext.setFill(Color.GREEN);
+
+        Image playerImage = null;
+        try {
+            playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no player image file");
+        }
+        if(playerImage == null)
+            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+        else
+            graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
     }
 
-    public void openFile(ActionEvent actionEvent) {
+    public void drawSolution(GraphicsContext graphicsContext, double cell_height, double cell_width){
+        Image SolutionImage = null;
+        try{
+            SolutionImage = new Image(new FileInputStream(getImageFileNameSolution()));
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no wall image file");
+        }
+        double x,y;
+        for(int i=0; i<solution.size(); i+=2){
+            x = solution.get(i+1)*cell_width;
+            y = solution.get(i)*cell_height;
+            if(playerCol == solution.get(i+1) && playerRow == solution.get(i)){
+                continue;
+            }
+            graphicsContext.drawImage(SolutionImage, x, y, cell_width, cell_height);
+        }
+    }
+
+    public void setSolution(ArrayList<Integer> solution) {
+        this.solution = solution;
+        draw();
+    }
+
+    private void drawFriend(GraphicsContext graphicsContext, double cell_height, double cell_width){
+        int rows = maze.length;
+        int cols = maze[0].length;
+        Image friendImage = null;
+        try {
+            friendImage = new Image(new FileInputStream(getImageFileNameFriend()));
+            graphicsContext.drawImage(friendImage, (rows-1) * cell_height, (cols-1) * cell_width, cell_width, cell_height);
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no friend image file");
+        }
     }
 }
-
-

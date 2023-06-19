@@ -5,8 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.net.URL;
@@ -23,7 +25,7 @@ public class PropertiesController implements Initializable {
     public ComboBox<String> generator;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        thread = new TextField();
+
         generator.getItems().addAll("MyMazeGenerator","SimpleMazeGenerator","EmptyMazeGenerator");
         searching.getItems().addAll("BestFirstSearch","DepthFirstSearch" ,"BreadthFirstSearch");
 
@@ -69,8 +71,11 @@ public class PropertiesController implements Initializable {
             con.setSearchingAlgorithm(searching.getValue());
         } catch (NumberFormatException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Don't mess with me, Insert number of threadPoolSize.");
+            alert.setContentText("Don't mess with me, Insert Again Number of Threads.");
             alert.show();
         }
+
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        stage.close();
     }
 }

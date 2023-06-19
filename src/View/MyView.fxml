@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import View.MazeDisplayer?>
+<?import View.View?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#mouseClicked" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(Images/background2.jpg); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
@@ -122,7 +122,7 @@
               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
           </BorderPane.margin>
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" height="500.0" width="500.0" onKeyPressed="#keyPressed" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" />
+               <View fx:id="mazeDisplayer" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" height="500.0" width="500.0" onKeyPressed="#keyPressed" imageFileNamePlayer="resources/Images/actor.png" imageFileNameWall="resources/Images/Icytower_walls.png" imageFileNameSolution="resources/Images/Solution.png" imageFileNameFriend="resources/Images/friend.png"/>
            </children>
           <padding>
               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
