@@ -35,10 +35,6 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.util.Duration;
 
-import static View.Main.restartApplication;
-
-//import static View.Main.restartApplication;
-
 
 public class MyViewController implements IView , Initializable, Observer {
     @FXML
@@ -51,7 +47,6 @@ public class MyViewController implements IView , Initializable, Observer {
     public Label playerCol;
     StringProperty updatePlayerRow = new SimpleStringProperty();
     StringProperty updatePlayerCol = new SimpleStringProperty();
-
     public MyViewModel viewModel;
     @FXML
     public MazeDisplayer mazeDisplayer;
@@ -72,7 +67,7 @@ public class MyViewController implements IView , Initializable, Observer {
         setMusic(mazeSong);
     }
 
-    public void setMusic(Media song){
+    public static void setMusic(Media song){
         /*set the mediaPlayer with the media, and call playMusic*/
         if(player!=null)
             player.pause();
@@ -111,7 +106,7 @@ public class MyViewController implements IView , Initializable, Observer {
         this.updatePlayerCol.set(updatePlayerCol);
     }
 
-    public void generateMaze(ActionEvent actionEvent) {
+    public void generate(){
         int nRow=0;
         int nCol=0;
         try {
@@ -135,6 +130,9 @@ public class MyViewController implements IView , Initializable, Observer {
             setUpdatePlayerCol("" + mazeDisplayer.getPlayerCol());
         }
     }
+    public void generateMaze(ActionEvent actionEvent) {
+        generate();
+    }
 
     public void solveMaze(ActionEvent actionEvent) {
         viewModel.solveMaze();
@@ -144,9 +142,11 @@ public class MyViewController implements IView , Initializable, Observer {
         viewModel.moveCharacter(keyEvent);
         keyEvent.consume();
     }
+
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
     }
+
     @FXML
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
@@ -180,10 +180,8 @@ public class MyViewController implements IView , Initializable, Observer {
     }
 
     public void openWinWindow(){
-
-        setMusic(winSong);
-
         try {
+            setMusic(winSong);
             Stage newWindow = new Stage();
             FXMLLoader newWindowLoader = new FXMLLoader(getClass().getResource("WinWindow.fxml"));
             Parent root = newWindowLoader.load();
@@ -191,7 +189,11 @@ public class MyViewController implements IView , Initializable, Observer {
             newWindow.setTitle("Maze Solved!");
             newWindow.setScene(newWindowScene);
             newWindow.initModality(Modality.NONE);
-            newWindow.show();
+
+            newWindow.initModality(Modality.APPLICATION_MODAL);
+            newWindow.initOwner(mazeDisplayer.getScene().getWindow());
+            newWindow.showAndWait();
+            generate();
         } catch (IOException e){
             e.printStackTrace();
         }

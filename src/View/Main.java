@@ -30,10 +30,6 @@ public class Main extends Application {
         viewModel.assignObserver(controller);
     }
 
-    public static void restartApplication() {
-        Application.launch(Main.class);
-    }
-
     public static void main(String[] args) {
         launch();
     }
