@@ -33,10 +33,6 @@ public class Main extends Application {
         });
     }
 
-    public static void restartApplication() {
-        Application.launch(Main.class);
-    }
-
     public static void main(String[] args) {
         launch();
     }

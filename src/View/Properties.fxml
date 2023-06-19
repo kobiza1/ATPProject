@@ -1,104 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="View.PropertiesController"
-            prefHeight="600.0" prefWidth="782.0"
-            style="-fx-background-image: url(Images/otherBackground.png);">
+
+<AnchorPane prefHeight="600.0" prefWidth="782.0" style="-fx-background-image: url(Images/otherBackground.png);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.PropertiesController">
     <children>
-        <Text fill="#7c2525" layoutX="289.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="functions">
-            <font>
-                <Font name="Copperplate" size="20.0" />
-            </font></Text>
-        <Text layoutX="301.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Move through the maze using numpad keys">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font></Text>
-        <Text layoutX="214.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="game information:  ">
+        <Text layoutX="296.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties:  ">
             <font>
                 <Font name="Copperplate" size="28.0" />
             </font>
         </Text>
-        <Text fill="#7c2525" layoutX="287.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="key">
-            <font>
-                <Font name="Copperplate" size="20.0" />
-            </font>
-        </Text>
-        <Text layoutX="319.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="note: you can not move through walls ">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font></Text>
-        <Text layoutX="301.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="file -&gt;">
+        <Text layoutX="301.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Number of Threads:">
             <font>
                 <Font name="Copperplate" size="12.0" />
             </font>
         </Text>
-        <Text layoutX="318.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="new -&gt; create new maze">
+        <Text layoutX="301.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Maze Generating Algorithm:">
             <font>
                 <Font name="Copperplate" size="12.0" />
             </font>
         </Text>
-        <Text layoutX="318.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="save -&gt; save the game">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text layoutX="318.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="load -&gt; load previous game">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text layoutX="301.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Options -&gt;">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <ImageView fitHeight="63.0" fitWidth="70.0" focusTraversable="true" layoutX="216.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@numPad.png" />
-            </image>
-        </ImageView>
-        <Text layoutX="317.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties -&gt; show Application settings">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text layoutX="302.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit -&gt; exit the pogram">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text layoutX="302.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="About-&gt; show Application Details">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text layoutX="301.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help -&gt; game information ">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text fill="#7c2525" layoutX="289.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GOAL">
-            <font>
-                <Font name="Copperplate" size="20.0" />
-            </font>
-        </Text>
-        <Text layoutX="300.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO WIN THIS GAME YOU NEED ">
-            <font>
-                <Font name="Copperplate" size="12.0" />
-            </font>
-        </Text>
-        <Text layoutX="300.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO REACH THE END OF THE MAZE ">
+        <Text layoutX="299.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Maze Searching Algorithm:">
             <font>
                 <Font name="Copperplate" size="12.0" />
             </font>
@@ -108,15 +36,18 @@
                 <Image url="@Icon.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="90.0" fitWidth="83.0" layoutX="207.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@win.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="65.0" fitWidth="63.0" layoutX="218.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="65.0" fitWidth="63.0" layoutX="218.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@setting-icon.png" />
             </image>
         </ImageView>
+      <ComboBox fx:id="searching" layoutX="300.0" layoutY="254.0" prefHeight="26.0" prefWidth="160.0" />
+      <TextField layoutX="300.0" layoutY="149.0" />
+      <ComboBox fx:id="generator" layoutX="300.0" layoutY="201.0" prefHeight="26.0" prefWidth="160.0" />
+      <Button layoutX="352.0" layoutY="316.0" mnemonicParsing="false" text="Submit" onAction="#Submit">
+         <font>
+            <Font name="Copperplate" size="13.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
