@@ -199,6 +199,8 @@ public class MyViewController implements IView , Initializable, Observer {
             newWindow.initOwner(mazeDisplayer.getScene().getWindow());
             newWindow.showAndWait();
             generate();
+            setMusic(mazeSong);
+
         } catch (IOException e){
             e.printStackTrace();
         }

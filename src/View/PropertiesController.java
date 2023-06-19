@@ -23,7 +23,7 @@ public class PropertiesController implements Initializable {
     public ComboBox<String> generator;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        thread = new TextField();
         generator.getItems().addAll("MyMazeGenerator","SimpleMazeGenerator","EmptyMazeGenerator");
         searching.getItems().addAll("BestFirstSearch","DepthFirstSearch" ,"BreadthFirstSearch");
 
@@ -33,10 +33,10 @@ public class PropertiesController implements Initializable {
             con = Configurations.getInstance();
 
             int threadPoolSize = Integer.parseInt(properties.getProperty("threadPoolSize"));
-            //con.setThreadPoolSize(threadPoolSize);
+            con.setThreadPoolSize(threadPoolSize);
 
             String generatorStr = properties.getProperty("MyMazeGenerator");
-            //con.setMazeAlgorithm(generatorStr);
+            con.setMazeAlgorithm(generatorStr);
 
             if(generatorStr.equals("MyMazeGenerator")){
                 generator.setValue("MyMazeGenerator");
@@ -49,7 +49,7 @@ public class PropertiesController implements Initializable {
             }
 
             String searchingStr = properties.getProperty("mazeSearchingAlgorithm");
-            //con.setSearchingAlgorithm(searching.getValue());
+            con.setSearchingAlgorithm(searching.getValue());
 
             if(searchingStr.equals("BreadthFirstSearch"))
                 searching.setValue("BreadthFirstSearch");
@@ -64,9 +64,9 @@ public class PropertiesController implements Initializable {
     public void Submit(ActionEvent actionEvent){
 
         try {
-//            con.setThreadPoolSize(Integer.parseInt(thread.getText()));
-//            con.setMazeAlgorithm(generator.getValue());
-//            con.setSearchingAlgorithm(searching.getValue());
+            con.setThreadPoolSize(Integer.parseInt(thread.getText()));
+            con.setMazeAlgorithm(generator.getValue());
+            con.setSearchingAlgorithm(searching.getValue());
         } catch (NumberFormatException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Don't mess with me, Insert number of threadPoolSize.");
