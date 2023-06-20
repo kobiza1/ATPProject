@@ -7,6 +7,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import Server.*;
 import Client.*;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import  org.apache.logging.log4j.LogManager;
 
@@ -15,6 +16,7 @@ import Server.ServerStrategyGenerateMaze;
 import Server.ServerStrategySolveSearchProblem;
 import algorithms.search.AState;
 import algorithms.search.Solution;
+import org.apache.logging.log4j.core.config.Configurator;
 
 
 import java.io.*;
@@ -36,11 +38,11 @@ public class MyModel extends Observable implements IModel{
     private Server mazeGeneratorServer;
     private Server mazeSolverServer;
     private boolean serversAreUp;
-    private Logger logger;
+    private static Logger logger;
 
     public MyModel() {
-        logger = LogManager.getLogger();
-        logger.error("good job");
+        logger = LogManager.getLogger("Maze logger");
+        Configurator.setRootLevel(Level.DEBUG);
         maze = null;
         rowChar =0;
         colChar =0;
@@ -53,12 +55,17 @@ public class MyModel extends Observable implements IModel{
         serversAreUp = true;
         mazeGeneratorServer.start();
         mazeSolverServer.start();
+        logger.info(mazeGeneratorServer +  " is up");
+        logger.info(mazeSolverServer +  " is up");
+
     }
 
     public void stopServers() {
         if(serversAreUp){
             mazeGeneratorServer.stop();
             mazeSolverServer.stop();
+            logger.info(mazeGeneratorServer +  " is down");
+            logger.info(mazeSolverServer +  " is down");
         }
     }
     public void updateCharacterLocation(int direction)
@@ -132,6 +139,7 @@ public class MyModel extends Observable implements IModel{
             notifyObservers(2);
 
             if(colChar == maze_board[0].length -1 && rowChar == maze_board.length -1){
+                logger.info("The player finished the maze");
                 setChanged();
                 notifyObservers(10); // maze is done!!
             }
@@ -159,6 +167,7 @@ public class MyModel extends Observable implements IModel{
             if(!serversAreUp)
                 startServers();
             CommunicateWithServer_SolveSearchProblem();
+            logger.info("The player asked for help");
             setChanged();
             notifyObservers(3);
         }
@@ -194,6 +203,7 @@ public class MyModel extends Observable implements IModel{
             FileOutputStream fileOutput_maze = new FileOutputStream(newFile_maze.getPath());
             ObjectOutputStream objectOutput_maze = new ObjectOutputStream(fileOutput_maze);
             objectOutput_maze.writeObject(maze);
+            logger.info("The maze has been saved in the computer in: " + Path + name);
             setChanged();
             notifyObservers(4);
         } catch (IOException e) {
@@ -208,6 +218,7 @@ public class MyModel extends Observable implements IModel{
         Object retrievedObject = objectInput.readObject();
         if(retrievedObject instanceof Maze){
             maze = (Maze)retrievedObject;
+            logger.info("The maze has been loaded from the computer.");
             setChanged();
             notifyObservers(5);
         }
@@ -223,15 +234,17 @@ public class MyModel extends Observable implements IModel{
         if(serversAreUp){
             stopServers();
         }
+        logger.info("The program shut down.");
         System.exit(0);
     }
 
     private void CommunicateWithServer_MazeGenerating(int row, int col)  {
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
+
+
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
-
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
@@ -250,6 +263,7 @@ public class MyModel extends Observable implements IModel{
             });
 
             client.communicateWithServer();
+            logger.info(client + " is connected to the maze generator server and generate maze in size: [" + row + "," + col + "] with start point at [0,0] and end point in [" + (row-1) + "," + (col-1) + "]");
         } catch (UnknownHostException var1) {
             var1.printStackTrace();
         }
@@ -272,6 +286,7 @@ public class MyModel extends Observable implements IModel{
                 }
             });
             client.communicateWithServer();
+            logger.info(client + " is connected to the solve search problem server and solve the maze: " + solution.getSolutionPath());
         } catch (UnknownHostException var1) {
             var1.printStackTrace();
         }

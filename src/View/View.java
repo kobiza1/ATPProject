@@ -21,6 +21,7 @@ public class View extends Canvas {
     StringProperty imageFileNameSolution = new SimpleStringProperty();
     StringProperty imageFileNameFriend = new SimpleStringProperty();
 
+
     public int[][] get_maze(){
         return this.maze;
     }
