@@ -7,6 +7,8 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import Server.*;
 import Client.*;
+import org.apache.logging.log4j.Logger;
+import  org.apache.logging.log4j.LogManager;
 
 import Server.Server;
 import Server.ServerStrategyGenerateMaze;
@@ -34,9 +36,11 @@ public class MyModel extends Observable implements IModel{
     private Server mazeGeneratorServer;
     private Server mazeSolverServer;
     private boolean serversAreUp;
-
+    private Logger logger;
 
     public MyModel() {
+        logger = LogManager.getLogger();
+        logger.error("good job");
         maze = null;
         rowChar =0;
         colChar =0;
