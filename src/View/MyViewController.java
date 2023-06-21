@@ -146,7 +146,7 @@ public class MyViewController implements IView , Initializable, Observer {
         keyEvent.consume();
     }
 
-    private void mazeSolved() {
+    public void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
     }
 
@@ -378,11 +378,10 @@ public class MyViewController implements IView , Initializable, Observer {
                 keyEvent = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "", "", keyCode, false, false, false, false);
                 viewModel.moveCharacter(keyEvent);
             }
-
         }
     }
 
-    private  double helperMouseDragged(int maxsize, double canvasSize, int mazeSize,double mouseEvent,double temp){
+    private double helperMouseDragged(int maxsize, double canvasSize, int mazeSize,double mouseEvent,double temp){
         double cellSize=canvasSize/maxsize;
         double start = (canvasSize / 2 - (cellSize * mazeSize / 2)) / cellSize;
         double mouse = (int) ((mouseEvent) / (temp) - start);

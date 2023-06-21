@@ -57,7 +57,6 @@ public class MyModel extends Observable implements IModel{
         mazeSolverServer.start();
         logger.info(mazeGeneratorServer +  " is up");
         logger.info(mazeSolverServer +  " is up");
-
     }
 
     public void stopServers() {
@@ -68,6 +67,7 @@ public class MyModel extends Observable implements IModel{
             logger.info(mazeSolverServer +  " is down");
         }
     }
+
     public void updateCharacterLocation(int direction)
     {
         /*
@@ -178,7 +178,6 @@ public class MyModel extends Observable implements IModel{
         return solution.getSolutionPath();
     }
 
-
     public void generateMaze(int row, int col)
     {
         if(!serversAreUp)
@@ -210,6 +209,7 @@ public class MyModel extends Observable implements IModel{
             throw new RuntimeException(e);
         }
     }
+
     public void load_maze(String Path){
         try{
         File file = new File(Path);

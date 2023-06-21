@@ -24,6 +24,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+
         IModel model = new MyModel();
         MyViewModel viewModel = new MyViewModel(model);
         MyViewController controller = fxmlLoader.getController();

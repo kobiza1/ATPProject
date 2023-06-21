@@ -66,7 +66,6 @@ public class PropertiesController implements Initializable {
     public void Submit(ActionEvent actionEvent){
 
         try {
-            System.out.println(thread.getText() + "why");
             con.setThreadPoolSize(Integer.parseInt(thread.getText()));
             con.setMazeAlgorithm(generator.getValue());
             con.setSearchingAlgorithm(searching.getValue());

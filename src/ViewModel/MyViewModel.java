@@ -32,7 +32,6 @@ public class MyViewModel extends Observable implements Observer {
         return maze;
     }
 
-
     public int getRowChar() {
         return rowChar;
     }
@@ -136,6 +135,7 @@ public class MyViewModel extends Observable implements Observer {
         if(path != null)
             model.save_maze(path, name);
     }
+
     public void loadMaze(String path) {
          if(path != null){
             String extension = getFileExtension(path);
@@ -152,6 +152,7 @@ public class MyViewModel extends Observable implements Observer {
     public void assignObserver(Observer o) {
         this.addObserver(o);
     }
+
     private String getFileExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf(".");
         if (dotIndex > 0 && dotIndex < fileName.length() - 1) {

@@ -15,16 +15,12 @@ public class View extends Canvas {
     private int playerRow = 0;
     private int playerCol = 0;
     private ArrayList<Integer> solution = null;
-    // wall and player images:
+
+    // images:
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameSolution = new SimpleStringProperty();
     StringProperty imageFileNameFriend = new SimpleStringProperty();
-
-
-    public int[][] get_maze(){
-        return this.maze;
-    }
 
     public String getImageFileNameWall() {
         return imageFileNameWall.get();
@@ -51,6 +47,9 @@ public class View extends Canvas {
         this.imageFileNameFriend.set(imageFileNameFriend);
     }
 
+    public int[][] get_maze(){
+        return this.maze;
+    }
     public int getPlayerRow() {
         return playerRow;
     }
@@ -61,12 +60,6 @@ public class View extends Canvas {
         this.playerRow = row;
         this.playerCol = col;
         draw();
-    }
-
-    public void drawMaze(int[][] maze) {
-        this.maze = maze;
-        setPlayerPosition(0, 0);
-        solution =null;
     }
 
     private void draw() {
@@ -91,7 +84,11 @@ public class View extends Canvas {
             drawFriend(graphicsContext, cellHeight, cellWidth);
         }
     }
-
+    public void drawMaze(int[][] maze) {
+        this.maze = maze;
+        setPlayerPosition(0, 0);
+        solution =null;
+    }
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
         if(maze != null){
             Image wallImage = null;
@@ -113,7 +110,6 @@ public class View extends Canvas {
             }
         }
     }
-
     private void drawPlayer(GraphicsContext graphicsContext, double cellHeight, double cellWidth) {
         double x = getPlayerCol() * cellWidth;
         double y = getPlayerRow() * cellHeight;
@@ -130,7 +126,6 @@ public class View extends Canvas {
         else
             graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
     }
-
     public void drawSolution(GraphicsContext graphicsContext, double cell_height, double cell_width){
         Image SolutionImage = null;
         try{
@@ -148,12 +143,10 @@ public class View extends Canvas {
             graphicsContext.drawImage(SolutionImage, x, y, cell_width, cell_height);
         }
     }
-
     public void setSolution(ArrayList<Integer> solution) {
         this.solution = solution;
         draw();
     }
-
     private void drawFriend(GraphicsContext graphicsContext, double cell_height, double cell_width){
         int rows = maze.length;
         int cols = maze[0].length;
